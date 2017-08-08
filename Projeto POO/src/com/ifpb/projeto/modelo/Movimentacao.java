@@ -63,6 +63,7 @@ public class Movimentacao {
         this.categoria = categoria;
     }
 
+    
     @Override
     public String toString() {
         return "Movimentacao{" + "descricao=" + descricao + ", data=" + data + ", valor=" + valor + ", tipo=" + tipo + ", categoria=" + categoria + '}';
