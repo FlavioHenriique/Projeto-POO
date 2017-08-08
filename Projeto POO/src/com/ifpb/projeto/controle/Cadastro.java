@@ -60,6 +60,5 @@ public class Cadastro {
                 user.listarMovimentacoes();
             }
         }
-
     }
 }
