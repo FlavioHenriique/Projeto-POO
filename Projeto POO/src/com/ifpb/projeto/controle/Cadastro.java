@@ -14,6 +14,10 @@ public class Cadastro {
         usuarios = new ArrayList<>();
     }
 
+    public List<Usuario> getUsuarios() {
+        return usuarios;
+    }
+
     public void salvar(Usuario u) {
         usuarios.add(u);
     }

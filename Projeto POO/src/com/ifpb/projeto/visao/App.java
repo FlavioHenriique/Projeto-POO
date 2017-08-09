@@ -3,8 +3,6 @@ package com.ifpb.projeto.visao;
 import com.ifpb.projeto.controle.Cadastro;
 import com.ifpb.projeto.modelo.Usuario;
 import com.ifpb.projeto.modelo.Movimentacao;
-import java.text.DateFormat;
-import java.text.ParseException;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 import java.util.Scanner;
@@ -44,6 +42,10 @@ public class App {
                     break;
                 }
                 case 2: {
+                    if (cadastro.getUsuarios().isEmpty()) {
+                        System.out.println("Ainda não há usuários cadastrados no sistema!");
+                        break;
+                    }
                     System.out.println("Digite o email: ");
                     String email = scanner.next();
                     System.out.println("Digite a sua senha: ");
@@ -95,6 +97,10 @@ public class App {
                     break;
                 }
                 case 3: {
+                    if (cadastro.getUsuarios().isEmpty()) {
+                        System.out.println("Ainda não há usuários cadastrados no sistema!");
+                        break;
+                    }
                     System.out.println("Digite o email do usuário: ");
                     String email = scanner.next();
                     System.out.println("Digite a senha do usuário: ");
