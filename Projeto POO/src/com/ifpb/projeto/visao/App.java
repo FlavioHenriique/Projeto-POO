@@ -14,11 +14,12 @@ public class App {
         Cadastro cadastro = new Cadastro();
         int selecao = 0;
         Scanner scanner = new Scanner(System.in);
-        while (selecao != 4) {
+        while (selecao != 5) {
             System.out.println("Deseja se cadastrar? aperte 1.");
             System.out.println("Deseja fazer login? aperte 2.");
             System.out.println("Deseja remover algum usuário? aperte 3.");
-            System.out.println("Deseja fechar o sistema? aperte 4.");
+            System.out.println("Deseja atualizar o perfil de usuário? aperte 4.");
+            System.out.println("Deseja fechar o sistema? aperte 5.");
             selecao = scanner.nextInt();
 
             switch (selecao) {
@@ -112,8 +113,41 @@ public class App {
                     }
                     break;
                 }
-                case 4:
-                    selecao = 4;
+                case 4: {
+                    if (cadastro.getUsuarios().isEmpty()) {
+                        System.out.println("Ainda não há usuários cadastrados no sistema!");
+                        break;
+                    }
+                    System.out.println("Digite o email do usuário: ");
+                    String email = scanner.next();
+                    System.out.println("Digite a senha do usuário: ");
+                    String senha = scanner.next();
+                    if (!cadastro.autenticar(email, senha)) {
+                        System.out.println("Usuário não cadastrado.");
+                        break;
+                    } else {
+
+                        Usuario usuario = new Usuario();
+                        System.out.println("Digite o email: ");
+                        usuario.setEmail(scanner.next());
+                        System.out.println("Digite a sua senha: ");
+                        usuario.setSenha(scanner.next());
+                        System.out.println("Digite o nome: ");
+                        usuario.setNome(scanner.next());
+                        System.out.println("Digite a data de nascimento: ");
+                        String nascimento = scanner.next();
+                        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd/MM/yyyy");
+                        LocalDate data = LocalDate.parse(nascimento, formatter);
+                        usuario.setNascimento(data);
+                        System.out.println("Digite o seu sexo: ");
+                        usuario.setSexo(scanner.next().charAt(0));
+                        cadastro.atualizarUsuario(cadastro.localizar(email, senha), usuario);
+                        System.out.println("As informações do usuário foram atualizadas!");
+                    }
+                    break;
+                }
+                case 5:
+                    selecao = 5;
                     break;
             }
         }
