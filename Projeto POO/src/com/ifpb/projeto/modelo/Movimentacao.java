@@ -8,14 +8,14 @@ public class Movimentacao {
     private String descricao;
     private LocalDate data;
     private float valor;
-    private String tipo;
-    private String categoria;
+    private char tipo;
+    private char categoria;
 
     public Movimentacao() {
 
     }
 
-    public Movimentacao(String descricao, LocalDate data, float valor, String tipo, String categoria) {
+    public Movimentacao(String descricao, LocalDate data, float valor, char tipo, char categoria) {
         this.descricao = descricao;
         this.data = data;
         this.valor = valor;
@@ -47,26 +47,90 @@ public class Movimentacao {
         this.valor = valor;
     }
 
-    public String getTipo() {
+    public char getTipo() {
         return tipo;
     }
 
-    public void setTipo(String tipo) {
+    public void setTipo(char tipo) {
         this.tipo = tipo;
     }
 
-    public String getCategoria() {
+    public char getCategoria() {
         return categoria;
     }
 
-    public void setCategoria(String categoria) {
+    public void setCategoria(char categoria) {
         this.categoria = categoria;
     }
 
-    
     @Override
     public String toString() {
-        return "Movimentacao{" + "descricao=" + descricao + ", data=" + data + ", valor=" + valor + ", tipo=" + tipo + ", categoria=" + categoria + '}';
+        if (tipo == 'e') {
+            switch (categoria) {
+                case 'a': {
+                    return "Movimentacao{" + "descricao=" + descricao + ", data=" + data
+                            + ", valor=" + valor + ", tipo=" + "entrada" + ", categoria=" + "alimentação" + '}';
+
+                }
+                case 'c': {
+                    return "Movimentacao{" + "descricao=" + descricao + ", data=" + data
+                            + ", valor=" + valor + ", tipo=" + "entrada" + ", categoria=" + "cartão de crédito" + '}';
+
+                }
+                case 'd': {
+                    return "Movimentacao{" + "descricao=" + descricao + ", data=" + data
+                            + ", valor=" + valor + ", tipo=" + "entrada" + ", categoria=" + "despesa doméstica" + '}';
+
+                }
+                case 's': {
+                    return "Movimentacao{" + "descricao=" + descricao + ", data=" + data
+                            + ", valor=" + valor + ", tipo=" + "entrada" + ", categoria=" + "saúde" + '}';
+
+                }
+                case 'p': {
+                    return "Movimentacao{" + "descricao=" + descricao + ", data=" + data
+                            + ", valor=" + valor + ", tipo=" + "entrada" + ", categoria=" + "pessoal" + '}';
+
+                }
+                default: {
+                    return "Movimentacao{" + "descricao=" + descricao + ", data=" + data
+                            + ", valor=" + valor + ", tipo=" + "entrada" + ", categoria=" + "outro" + '}';
+                }
+            }
+
+        } else {
+            switch (categoria) {
+                case 'a': {
+                    return "Movimentacao{" + "descricao=" + descricao + ", data=" + data
+                            + ", valor=" + valor + ", tipo=" + "saída" + ", categoria=" + "alimentação" + '}';
+
+                }
+                case 'c': {
+                    return "Movimentacao{" + "descricao=" + descricao + ", data=" + data
+                            + ", valor=" + valor + ", tipo=" + "saída" + ", categoria=" + "cartão de crédito" + '}';
+
+                }
+                case 'd': {
+                    return "Movimentacao{" + "descricao=" + descricao + ", data=" + data
+                            + ", valor=" + valor + ", tipo=" + "saída" + ", categoria=" + "despesa doméstica" + '}';
+
+                }
+                case 's': {
+                    return "Movimentacao{" + "descricao=" + descricao + ", data=" + data
+                            + ", valor=" + valor + ", tipo=" + "saída" + ", categoria=" + "saúde" + '}';
+
+                }
+                case 'p': {
+                    return "Movimentacao{" + "descricao=" + descricao + ", data=" + data
+                            + ", valor=" + valor + ", tipo=" + "saída" + ", categoria=" + "pessoal" + '}';
+
+                }
+                default: {
+                    return "Movimentacao{" + "descricao=" + descricao + ", data=" + data
+                            + ", valor=" + valor + ", tipo=" + "saída" + ", categoria=" + "outro" + '}';
+                }
+            }
+        }
     }
 
     @Override

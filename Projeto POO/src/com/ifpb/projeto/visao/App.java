@@ -72,14 +72,51 @@ public class App {
                                     movimentacao.setData(data);
                                     System.out.println("Digite o valor: ");
                                     movimentacao.setValor(scanner.nextFloat());
-                                    System.out.println("Digite o tipo: ");
-                                    movimentacao.setTipo(scanner.next());
+                                    char tipo = 'n';
+                                    while (tipo != 's' || tipo != 'e') {
+                                        System.out.println("Digite S se for do tipo saída ou E se for do tipo entrada: ");
+                                        tipo = scanner.next().charAt(0);
+                                        if (tipo == 'e' || tipo == 's') {
+                                            movimentacao.setTipo(tipo);
+                                            break;
+                                        } else {
+                                            System.out.println("Tipo inválido.");
+                                        }
+                                    }
+
                                     System.out.println("Digite a categoria: ");
-                                    movimentacao.setCategoria(scanner.next());
+                                    char categoria = scanner.next().charAt(0);
+
+                                    switch (categoria) {
+                                        case 'a': {
+                                            movimentacao.setCategoria(categoria);
+                                            break;
+                                        }
+                                        case 'c': {
+                                            movimentacao.setCategoria(categoria);
+                                            break;
+                                        }
+                                        case 'd': {
+                                            movimentacao.setCategoria(categoria);
+                                            break;
+                                        }
+                                        case 's': {
+                                            movimentacao.setCategoria(categoria);
+                                            break;
+                                        }
+                                        case 'p': {
+                                            movimentacao.setCategoria(categoria);
+                                            break;
+                                        }
+                                        default: {
+                                            movimentacao.setCategoria('o');
+                                            break;
+                                        }
+                                    }
+
                                     cadastro.movimentacao(cadastro.localizar(email, senha), movimentacao);
                                     System.out.println("Movimentação cadastrada com sucesso !");
                                     break;
-
                                 }
                                 case 2: {
                                     cadastro.listar(email, senha);

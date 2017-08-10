@@ -70,7 +70,8 @@ public class Usuario {
 
     @Override
     public String toString() {
-        return "Usuario{" + "email=" + email + ", nome=" + nome + ", nascimento=" + nascimento + ", sexo=" + sexo + ", senha=" + senha + '}';
+        return "Usuario{" + "email=" + email + ", nome=" + nome +
+                ", nascimento=" + nascimento + ", sexo=" + sexo + ", senha=" + senha + '}';
     }
 
     public void salvarMovimentacao(Movimentacao m) {
