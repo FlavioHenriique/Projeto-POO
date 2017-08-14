@@ -69,6 +69,7 @@ public class Cadastro {
     public void atualizarUsuario(Usuario antigo, Usuario novo) {
         for (int k = 0; k < usuarios.size(); k++) {
             if (usuarios.get(k).equals(antigo)) {
+                novo.setMovimentacoes(usuarios.get(k).getMovimentacoes());
                 usuarios.set(k, novo);
             }
         }

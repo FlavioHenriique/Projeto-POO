@@ -68,10 +68,18 @@ public class Usuario {
         this.senha = senha;
     }
 
+    public List<Movimentacao> getMovimentacoes() {
+        return movimentacoes;
+    }
+
+    public void setMovimentacoes(List<Movimentacao> movimentacoes) {
+        this.movimentacoes = movimentacoes;
+    }
+
     @Override
     public String toString() {
-        return "Usuario{" + "email=" + email + ", nome=" + nome +
-                ", nascimento=" + nascimento + ", sexo=" + sexo + ", senha=" + senha + '}';
+        return "Usuario{" + "email=" + email + ", nome=" + nome
+                + ", nascimento=" + nascimento + ", sexo=" + sexo + ", senha=" + senha + '}';
     }
 
     public void salvarMovimentacao(Movimentacao m) {

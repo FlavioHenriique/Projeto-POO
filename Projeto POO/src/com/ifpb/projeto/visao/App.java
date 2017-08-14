@@ -167,7 +167,7 @@ public class App {
                         Usuario usuario = new Usuario();
                         System.out.println("Digite o email: ");
                         usuario.setEmail(scanner.next());
-                        System.out.println("Digite a sua senha: ");
+                        System.out.println("Digite a senha: ");
                         usuario.setSenha(scanner.next());
                         System.out.println("Digite o nome: ");
                         usuario.setNome(scanner.next());
