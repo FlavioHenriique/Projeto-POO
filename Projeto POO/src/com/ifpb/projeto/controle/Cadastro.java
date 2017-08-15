@@ -3,23 +3,36 @@ package com.ifpb.projeto.controle;
 import com.ifpb.projeto.modelo.Movimentacao;
 import com.ifpb.projeto.modelo.Usuario;
 import java.io.PrintStream;
-import java.util.ArrayList;
+import java.util.LinkedList;
 import java.util.List;
+import java.util.Objects;
 
 public class Cadastro {
 
     private List<Usuario> usuarios;
 
     public Cadastro() {
-        usuarios = new ArrayList<>();
+        usuarios = new LinkedList<>();
     }
 
     public List<Usuario> getUsuarios() {
         return usuarios;
     }
 
-    public void salvar(Usuario u) {
+    public boolean salvar(Usuario u) {
+        if (usuarios.isEmpty()) {
+            usuarios.add(u);
+            return true;
+        } else {
+            for (Usuario user : usuarios) {
+                if (user.getEmail().equals(u.getEmail())) {
+                    System.out.println("Este email já está sendo utilizado!");
+                    return false;
+                }
+            }
+        }
         usuarios.add(u);
+        return true;
     }
 
     public boolean removerUsuario(String email, String senha) {
@@ -74,4 +87,30 @@ public class Cadastro {
             }
         }
     }
+
+    @Override
+    public int hashCode() {
+        int hash = 7;
+        hash = 41 * hash + Objects.hashCode(this.usuarios);
+        return hash;
+    }
+
+    @Override
+    public boolean equals(Object obj) {
+        if (this == obj) {
+            return true;
+        }
+        if (obj == null) {
+            return false;
+        }
+        if (getClass() != obj.getClass()) {
+            return false;
+        }
+        final Cadastro other = (Cadastro) obj;
+        if (!Objects.equals(this.usuarios, other.usuarios)) {
+            return false;
+        }
+        return true;
+    }
+
 }

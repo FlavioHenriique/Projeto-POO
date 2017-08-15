@@ -1,7 +1,7 @@
 package com.ifpb.projeto.modelo;
 
 import java.time.LocalDate;
-import java.util.ArrayList;
+import java.util.LinkedList;
 import java.util.List;
 import java.util.Objects;
 
@@ -20,12 +20,12 @@ public class Usuario {
         this.nascimento = nascimento;
         this.sexo = sexo;
         this.senha = senha;
-        movimentacoes = new ArrayList<>();
+        movimentacoes = new LinkedList<>();
 
     }
 
     public Usuario() {
-        movimentacoes = new ArrayList<>();
+        movimentacoes = new LinkedList<>();
     }
 
     public String getEmail() {

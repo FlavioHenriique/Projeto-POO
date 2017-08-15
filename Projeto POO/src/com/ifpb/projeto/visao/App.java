@@ -38,8 +38,9 @@ public class App {
                     usuario.setNascimento(data);
                     System.out.println("Digite o seu sexo: ");
                     usuario.setSexo(scanner.next().charAt(0));
-                    cadastro.salvar(usuario);
-                    System.out.println("Cadastro realizado com sucesso! ");
+                    if (cadastro.salvar(usuario)) {
+                        System.out.println("Usuário cadastrado com sucesso!");
+                    }
                     break;
                 }
                 case 2: {
@@ -84,7 +85,12 @@ public class App {
                                         }
                                     }
 
-                                    System.out.println("Digite a categoria: ");
+                                    System.out.println("Selecione a categoria: ");
+                                    System.out.println("Caso seja alimentação, digite 'a':");
+                                    System.out.println("Caso seja cartão de crédtio, digite 'c': ");
+                                    System.out.println("Caso seja despesa doméstica, digite 'd': ");
+                                    System.out.println("Caso seja saúde, digite 's': ");
+                                    System.out.println("Caso seja pessoal, digite 'p': ");
                                     char categoria = scanner.next().charAt(0);
 
                                     switch (categoria) {
