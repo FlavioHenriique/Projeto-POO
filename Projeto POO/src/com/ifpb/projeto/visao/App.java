@@ -31,7 +31,17 @@ public class App {
                     System.out.println("Digite o email: ");
                     usuario.setEmail(scanner.next());
                     System.out.println("Digite a sua senha: ");
-                    usuario.setSenha(scanner.next());
+                    String senha = scanner.next();
+                    boolean confirma = false;
+                    while (confirma == false) {
+                        System.out.println("Confirme sua senha: ");
+                        String confirmacao = scanner.next();
+                        confirma = usuario.confirmaSenha(senha, confirmacao);
+                        if (confirma == false) {
+                            System.out.println("Senha incorreta!");
+                        }
+                    }
+                    usuario.setSenha(senha);
                     System.out.println("Digite o nome: ");
                     usuario.setNome(scanner.next());
                     System.out.println("Digite a data de nascimento: ");
