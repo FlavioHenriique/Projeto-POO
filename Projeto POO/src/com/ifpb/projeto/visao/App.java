@@ -15,15 +15,18 @@ public class App {
         int selecao = 0;
         Scanner scanner = new Scanner(System.in);
         while (selecao != 5) {
+
             System.out.println("Deseja se cadastrar? aperte 1.");
             System.out.println("Deseja fazer login? aperte 2.");
             System.out.println("Deseja remover algum usuário? aperte 3.");
             System.out.println("Deseja atualizar o perfil de usuário? aperte 4.");
             System.out.println("Deseja fechar o sistema? aperte 5.");
+
             selecao = scanner.nextInt();
 
             switch (selecao) {
                 case 1: {
+
                     Usuario usuario = new Usuario();
                     System.out.println("Digite o email: ");
                     usuario.setEmail(scanner.next());
@@ -38,31 +41,42 @@ public class App {
                     usuario.setNascimento(data);
                     System.out.println("Digite o seu sexo: ");
                     usuario.setSexo(scanner.next().charAt(0));
+
                     if (cadastro.salvar(usuario)) {
                         System.out.println("Usuário cadastrado com sucesso!");
                     }
+
                     break;
                 }
                 case 2: {
+
                     if (cadastro.getUsuarios().isEmpty()) {
                         System.out.println("Ainda não há usuários cadastrados no sistema!");
+
                         break;
                     }
+
                     System.out.println("Digite o email: ");
-                    String email = scanner.next();
+                    String email = scanner.next();;
                     System.out.println("Digite a sua senha: ");
                     String senha = scanner.next();
+
                     if (cadastro.autenticar(email, senha) == true) {
                         System.out.println("Usuário cadastrado no sistema.");
                         System.out.println("Bem vindo, " + cadastro.localizar(email, senha).getNome() + "!");
                         int escolha = 0;
+
                         while (escolha != 3) {
+
                             System.out.println("Deseja cadastrar alguma movimentação? Digite 1.");
                             System.out.println("Deseja listar suas movimentações? digite 2.");
                             System.out.println("Deseja sair do sistema? Digite 3.");
                             escolha = scanner.nextInt();
+
                             switch (escolha) {
+
                                 case 1: {
+
                                     Movimentacao movimentacao = new Movimentacao();
                                     System.out.println("Digite a descrição: ");
                                     movimentacao.setDescricao(scanner.next());
@@ -72,8 +86,9 @@ public class App {
                                     LocalDate data = LocalDate.parse(dataMovimentacao, formatter);
                                     movimentacao.setData(data);
                                     System.out.println("Digite o valor: ");
-                                    movimentacao.setValor(scanner.nextFloat());
+                                    movimentacao.setValor((float) scanner.nextDouble());
                                     char tipo = 'n';
+
                                     while (tipo != 's' || tipo != 'e') {
                                         System.out.println("Digite S se for do tipo saída ou E se for do tipo entrada: ");
                                         tipo = scanner.next().charAt(0);
@@ -189,9 +204,14 @@ public class App {
                     }
                     break;
                 }
-                case 5:
+                case 5: {
                     selecao = 5;
                     break;
+                }
+                default: {
+                    selecao = 0;
+                }
+
             }
         }
     }

@@ -2,7 +2,6 @@ package com.ifpb.projeto.controle;
 
 import com.ifpb.projeto.modelo.Movimentacao;
 import com.ifpb.projeto.modelo.Usuario;
-import java.io.PrintStream;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Objects;
