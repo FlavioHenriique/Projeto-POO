@@ -30,18 +30,20 @@ public class App {
                     Usuario usuario = new Usuario();
                     System.out.println("Digite o email: ");
                     usuario.setEmail(scanner.next());
-                    System.out.println("Digite a sua senha: ");
-                    String senha = scanner.next();
+
                     boolean confirma = false;
                     while (confirma == false) {
+                        System.out.println("Digite a sua senha: ");
+                        String senha = scanner.next();
                         System.out.println("Confirme sua senha: ");
                         String confirmacao = scanner.next();
                         confirma = usuario.confirmaSenha(senha, confirmacao);
                         if (confirma == false) {
                             System.out.println("Senha incorreta!");
+                        } else {
+                            usuario.setSenha(senha);
                         }
                     }
-                    usuario.setSenha(senha);
                     System.out.println("Digite o nome: ");
                     usuario.setNome(scanner.next());
                     System.out.println("Digite a data de nascimento: ");
@@ -96,7 +98,8 @@ public class App {
                                     LocalDate data = LocalDate.parse(dataMovimentacao, formatter);
                                     movimentacao.setData(data);
                                     System.out.println("Digite o valor: ");
-                                    movimentacao.setValor((float) scanner.nextDouble());
+                                    System.out.print("R$ ");
+                                    movimentacao.setValor(scanner.nextFloat());
                                     char tipo = 'n';
 
                                     while (tipo != 's' || tipo != 'e') {
@@ -221,7 +224,6 @@ public class App {
                 default: {
                     selecao = 0;
                 }
-
             }
         }
     }
