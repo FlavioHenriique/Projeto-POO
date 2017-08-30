@@ -127,7 +127,7 @@ public class Movimentacao {
                 }
                 default: {
                     return "Movimentacao{" + "descricao=" + descricao + ", data=" + data
-                            + ", valor=" + valor + ", tipo=" + "saída" + ", categoria=" + "outro" + '}';
+                            + ", valor=" + valor + ", tipo=" + "saída" + ", categoria=" + "outros" + '}';
                 }
             }
         }

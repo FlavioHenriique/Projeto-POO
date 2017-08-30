@@ -51,7 +51,7 @@ public class App {
                     DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd/MM/yyyy");
                     LocalDate data = LocalDate.parse(nascimento, formatter);
                     usuario.setNascimento(data);
-                    System.out.println("Digite o seu sexo: ");
+                    System.out.println("Digite seu sexo, 'f' se for feminino ou 'm' se for masculino:  ");
                     usuario.setSexo(scanner.next().charAt(0));
 
                     if (cadastro.salvar(usuario)) {
@@ -120,34 +120,7 @@ public class App {
                                     System.out.println("Caso seja saúde, digite 's': ");
                                     System.out.println("Caso seja pessoal, digite 'p': ");
                                     char categoria = scanner.next().charAt(0);
-
-                                    switch (categoria) {
-                                        case 'a': {
-                                            movimentacao.setCategoria(categoria);
-                                            break;
-                                        }
-                                        case 'c': {
-                                            movimentacao.setCategoria(categoria);
-                                            break;
-                                        }
-                                        case 'd': {
-                                            movimentacao.setCategoria(categoria);
-                                            break;
-                                        }
-                                        case 's': {
-                                            movimentacao.setCategoria(categoria);
-                                            break;
-                                        }
-                                        case 'p': {
-                                            movimentacao.setCategoria(categoria);
-                                            break;
-                                        }
-                                        default: {
-                                            movimentacao.setCategoria('o');
-                                            break;
-                                        }
-                                    }
-
+                                    movimentacao.setCategoria(categoria);
                                     cadastro.movimentacao(cadastro.localizar(email, senha), movimentacao);
                                     System.out.println("Movimentação cadastrada com sucesso !");
                                     break;
