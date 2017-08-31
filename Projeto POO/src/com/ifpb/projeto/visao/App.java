@@ -16,11 +16,11 @@ public class App {
         Scanner scanner = new Scanner(System.in);
         while (selecao != 5) {
 
-            System.out.println("Deseja se cadastrar? aperte 1.");
-            System.out.println("Deseja fazer login? aperte 2.");
-            System.out.println("Deseja remover algum usuário? aperte 3.");
-            System.out.println("Deseja atualizar o perfil de usuário? aperte 4.");
-            System.out.println("Deseja fechar o sistema? aperte 5.");
+            System.out.println("Deseja se cadastrar? digite 1.");
+            System.out.println("Deseja fazer login? digite 2.");
+            System.out.println("Deseja remover algum usuário? digite 3.");
+            System.out.println("Deseja atualizar o perfil de usuário? digite 4.");
+            System.out.println("Deseja fechar o sistema? digite 5.");
 
             selecao = scanner.nextInt();
 
@@ -89,7 +89,7 @@ public class App {
                         while (escolha != 3) {
 
                             System.out.println("Deseja cadastrar alguma movimentação? Digite 1.");
-                            System.out.println("Deseja listar suas movimentações? digite 2.");
+                            System.out.println("Deseja listar suas movimentações? Digite 2.");
                             System.out.println("Deseja sair do sistema? Digite 3.");
                             escolha = scanner.nextInt();
 
@@ -204,6 +204,7 @@ public class App {
                         System.out.println("Digite seu sexo, 'f' se for feminino ou 'm' se for masculino:  ");
                         usuario.setSexo(scanner.next().charAt(0));
                         cadastro.atualizarUsuario(cadastro.localizar(email, senha), usuario);
+                        System.out.println(usuario.toString());
                         System.out.println("As informações do usuário foram atualizadas!");
                     }
                     break;
