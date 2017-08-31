@@ -19,17 +19,7 @@ public class Cadastro {
     }
 
     public boolean salvar(Usuario u) {
-        if (usuarios.isEmpty()) {
-            usuarios.add(u);
-            return true;
-        } else {
-            for (Usuario user : usuarios) {
-                if (user.getEmail().equals(u.getEmail())) {
-                    System.out.println("Este email já está sendo utilizado!");
-                    return false;
-                }
-            }
-        }
+        
         usuarios.add(u);
         return true;
     }
@@ -85,6 +75,15 @@ public class Cadastro {
                 usuarios.set(k, novo);
             }
         }
+    }
+
+    public boolean buscaEmail(String email) {
+        for (Usuario user : usuarios) {
+            if (user.getEmail().equals(email)) {
+                return true;
+            }
+        }
+        return false;
     }
 
     @Override

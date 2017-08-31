@@ -15,14 +15,6 @@ public class Movimentacao {
 
     }
 
-    public Movimentacao(String descricao, LocalDate data, float valor, char tipo, char categoria) {
-        this.descricao = descricao;
-        this.data = data;
-        this.valor = valor;
-        this.tipo = tipo;
-        this.categoria = categoria;
-    }
-
     public String getDescricao() {
         return descricao;
     }

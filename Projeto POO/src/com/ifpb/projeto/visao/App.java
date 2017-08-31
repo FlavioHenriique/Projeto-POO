@@ -28,9 +28,17 @@ public class App {
                 case 1: {
 
                     Usuario usuario = new Usuario();
-                    System.out.println("Digite o email: ");
-                    usuario.setEmail(scanner.next());
-
+                    boolean teste = true;
+                    while (teste == true) {
+                        System.out.println("Digite o email: ");
+                        String testeEmail = scanner.next();
+                        teste = cadastro.buscaEmail(testeEmail);
+                        if (teste == true) {
+                            System.out.println("Este email já está sendo utilizado! ");
+                        } else {
+                            usuario.setEmail(testeEmail);
+                        }
+                    }
                     boolean confirma = false;
                     while (confirma == false) {
                         System.out.println("Digite a sua senha: ");
@@ -145,6 +153,7 @@ public class App {
                     if (cadastro.getUsuarios().isEmpty()) {
                         System.out.println("Ainda não há usuários cadastrados no sistema!");
                         break;
+
                     }
                     System.out.println("Digite o email do usuário: ");
                     String email = scanner.next();
@@ -172,8 +181,17 @@ public class App {
                     } else {
 
                         Usuario usuario = new Usuario();
-                        System.out.println("Digite o email: ");
-                        usuario.setEmail(scanner.next());
+                        boolean teste = true;
+                        while (teste == true) {
+                            System.out.println("Digite o email: ");
+                            String testeEmail = scanner.next();
+                            teste = cadastro.buscaEmail(testeEmail);
+                            if (teste == true) {
+                                System.out.println("Este email já está sendo utilizado! ");
+                            } else {
+                                usuario.setEmail(testeEmail);
+                            }
+                        }
                         System.out.println("Digite a senha: ");
                         usuario.setSenha(scanner.next());
                         System.out.println("Digite o nome: ");
@@ -183,7 +201,7 @@ public class App {
                         DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd/MM/yyyy");
                         LocalDate data = LocalDate.parse(nascimento, formatter);
                         usuario.setNascimento(data);
-                        System.out.println("Digite o seu sexo: ");
+                        System.out.println("Digite seu sexo, 'f' se for feminino ou 'm' se for masculino:  ");
                         usuario.setSexo(scanner.next().charAt(0));
                         cadastro.atualizarUsuario(cadastro.localizar(email, senha), usuario);
                         System.out.println("As informações do usuário foram atualizadas!");
