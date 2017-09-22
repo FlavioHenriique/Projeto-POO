@@ -49,7 +49,6 @@ public class Cadastro {
             }
         }
         return null;
-
     }
 
     public void movimentacao(Usuario u, Movimentacao m) {
