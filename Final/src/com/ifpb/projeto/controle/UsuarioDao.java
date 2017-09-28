@@ -5,6 +5,9 @@
  */
 package com.ifpb.projeto.controle;
 
+import java.io.FileNotFoundException;
+import java.io.IOException;
+
 /**
  *
  * @author Flavio
@@ -15,7 +18,7 @@ public interface UsuarioDao<T> {
 
     boolean remover(T u);
 
-    T atualizar();
+    T atualizar(T u) throws FileNotFoundException, IOException, ClassNotFoundException;
 
     T excluir();
 }

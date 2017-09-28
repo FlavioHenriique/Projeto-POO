@@ -1,5 +1,6 @@
 package com.ifpb.projeto.modelo;
 
+import com.ifpb.projeto.excecoes.CadastroException;
 import java.io.Serializable;
 import java.time.LocalDate;
 import java.util.ArrayList;
@@ -76,16 +77,25 @@ public class Usuario implements Serializable {
     public void setMovimentacoes(List<Movimentacao> movimentacoes) {
         this.movimentacoes = movimentacoes;
     }
-    
-    public boolean salvarMov(Movimentacao m){
-            
+
+    public boolean salvarMov(Movimentacao m) {
+
         return movimentacoes.add(m);
     }
-    
-    public void listarMovs(){
-        for(Movimentacao m : movimentacoes){
-            System.out.println(m.toString());
+
+    public boolean atualizarMov(Movimentacao atual, Movimentacao nova) throws CadastroException {
+
+        if (nova.getDescricao().equals("")) {
+            throw new CadastroException("Preencha todos os campos!");
+        } else {
+            for (int k = 0; k < movimentacoes.size(); k++) {
+                if (movimentacoes.get(k).equals(atual)) {
+                    movimentacoes.set(k, nova);
+                    return true;
+                }
+            }
         }
+        return false;
     }
 
     @Override
@@ -137,6 +147,5 @@ public class Usuario implements Serializable {
     public String toString() {
         return "Usuario{" + "nome=" + nome + ", sexo=" + sexo + ", nascimento=" + nascimento + ", email=" + email + ", senha=" + senha + ", movimentacoes=" + movimentacoes + '}';
     }
- 
-    
+
 }

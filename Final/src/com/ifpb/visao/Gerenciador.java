@@ -6,12 +6,19 @@
 package com.ifpb.visao;
 
 import com.ifpb.projeto.controle.UsuarioDaoArquivo;
+import com.ifpb.projeto.excecoes.CadastroException;
+import com.ifpb.projeto.excecoes.EmailException;
 import com.ifpb.projeto.modelo.Movimentacao;
 import com.ifpb.projeto.modelo.Usuario;
+import java.io.FileNotFoundException;
 import java.io.IOException;
+import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
+import java.time.format.DateTimeParseException;
 import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import javax.swing.ImageIcon;
 import javax.swing.JOptionPane;
 import javax.swing.table.DefaultTableModel;
 
@@ -27,6 +34,7 @@ public class Gerenciador extends javax.swing.JFrame {
      */
     private Usuario atual;
     private UsuarioDaoArquivo dao;
+    private DefaultTableModel table;
 
     public Gerenciador() {
         try {
@@ -36,8 +44,10 @@ public class Gerenciador extends javax.swing.JFrame {
 
         }
         this.setLocation(500, 110);
+        this.setIconImage(new ImageIcon("icone.jpg").getImage());
 
         initComponents();
+        table = (DefaultTableModel) tabela.getModel();
     }
 
     /**
@@ -50,15 +60,17 @@ public class Gerenciador extends javax.swing.JFrame {
     private void initComponents() {
 
         jPanel1 = new javax.swing.JPanel();
-        jFormattedTextField1 = new javax.swing.JFormattedTextField();
-        jFormattedTextField2 = new javax.swing.JFormattedTextField();
-        jButton1 = new javax.swing.JButton();
-        jButton2 = new javax.swing.JButton();
+        dataInicial = new javax.swing.JFormattedTextField();
+        dataFinal = new javax.swing.JFormattedTextField();
+        btInicial = new javax.swing.JButton();
+        btFinal = new javax.swing.JButton();
         jScrollPane1 = new javax.swing.JScrollPane();
         tabela = new javax.swing.JTable();
         jPanel2 = new javax.swing.JPanel();
         jLabel1 = new javax.swing.JLabel();
         jLabel2 = new javax.swing.JLabel();
+        jLabel3 = new javax.swing.JLabel();
+        jLabel4 = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setUndecorated(true);
@@ -67,30 +79,41 @@ public class Gerenciador extends javax.swing.JFrame {
         jPanel1.setBorder(new javax.swing.border.LineBorder(new java.awt.Color(0, 0, 0), 1, true));
 
         try {
-            jFormattedTextField1.setFormatterFactory(new javax.swing.text.DefaultFormatterFactory(new javax.swing.text.MaskFormatter("##/##/####")));
+            dataInicial.setFormatterFactory(new javax.swing.text.DefaultFormatterFactory(new javax.swing.text.MaskFormatter("##/##/####")));
         } catch (java.text.ParseException ex) {
             ex.printStackTrace();
         }
-        jFormattedTextField1.addActionListener(new java.awt.event.ActionListener() {
+        dataInicial.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jFormattedTextField1ActionPerformed(evt);
+                dataInicialActionPerformed(evt);
             }
         });
 
         try {
-            jFormattedTextField2.setFormatterFactory(new javax.swing.text.DefaultFormatterFactory(new javax.swing.text.MaskFormatter("##/##/####")));
+            dataFinal.setFormatterFactory(new javax.swing.text.DefaultFormatterFactory(new javax.swing.text.MaskFormatter("##/##/####")));
         } catch (java.text.ParseException ex) {
             ex.printStackTrace();
         }
 
-        jButton1.setText("Calcular");
-        jButton1.addActionListener(new java.awt.event.ActionListener() {
+        btInicial.setBackground(new java.awt.Color(0, 102, 0));
+        btInicial.setFont(new java.awt.Font("Arial", 1, 14)); // NOI18N
+        btInicial.setForeground(new java.awt.Color(255, 255, 255));
+        btInicial.setText("Calcular");
+        btInicial.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jButton1ActionPerformed(evt);
+                btInicialActionPerformed(evt);
             }
         });
 
-        jButton2.setText("Calcular");
+        btFinal.setBackground(new java.awt.Color(0, 102, 0));
+        btFinal.setFont(new java.awt.Font("Arial", 1, 14)); // NOI18N
+        btFinal.setForeground(new java.awt.Color(255, 255, 255));
+        btFinal.setText("Calcular");
+        btFinal.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btFinalActionPerformed(evt);
+            }
+        });
 
         tabela.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
@@ -112,7 +135,7 @@ public class Gerenciador extends javax.swing.JFrame {
 
         jLabel1.setFont(new java.awt.Font("Arial", 1, 18)); // NOI18N
         jLabel1.setForeground(new java.awt.Color(255, 255, 255));
-        jLabel1.setText("Gerenciar movimentações");
+        jLabel1.setText("Gerenciar finanças");
 
         jLabel2.setFont(new java.awt.Font("Arial", 1, 18)); // NOI18N
         jLabel2.setForeground(new java.awt.Color(255, 255, 255));
@@ -144,40 +167,54 @@ public class Gerenciador extends javax.swing.JFrame {
                 .addContainerGap())
         );
 
+        jLabel3.setFont(new java.awt.Font("Arial", 1, 14)); // NOI18N
+        jLabel3.setText("Data inicial");
+
+        jLabel4.setFont(new java.awt.Font("Arial", 1, 14)); // NOI18N
+        jLabel4.setText("Data final");
+
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);
         jPanel1Layout.setHorizontalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addComponent(jPanel2, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
             .addGroup(jPanel1Layout.createSequentialGroup()
                 .addGap(34, 34, 34)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(jPanel1Layout.createSequentialGroup()
-                        .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 452, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addContainerGap(44, Short.MAX_VALUE))
-                    .addGroup(jPanel1Layout.createSequentialGroup()
-                        .addComponent(jFormattedTextField1, javax.swing.GroupLayout.PREFERRED_SIZE, 81, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(18, 18, 18)
-                        .addComponent(jButton1)
+                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addGroup(jPanel1Layout.createSequentialGroup()
+                                .addComponent(dataInicial, javax.swing.GroupLayout.PREFERRED_SIZE, 81, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addGap(18, 18, 18)
+                                .addComponent(btInicial))
+                            .addComponent(jLabel3))
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                        .addComponent(jFormattedTextField2, javax.swing.GroupLayout.PREFERRED_SIZE, 96, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(18, 18, 18)
-                        .addComponent(jButton2)
-                        .addGap(58, 58, 58))))
-            .addComponent(jPanel2, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addGroup(jPanel1Layout.createSequentialGroup()
+                                .addComponent(dataFinal, javax.swing.GroupLayout.PREFERRED_SIZE, 96, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addGap(18, 18, 18)
+                                .addComponent(btFinal))
+                            .addComponent(jLabel4)))
+                    .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 452, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addContainerGap(40, Short.MAX_VALUE))
         );
         jPanel1Layout.setVerticalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel1Layout.createSequentialGroup()
                 .addComponent(jPanel2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(49, 49, 49)
+                .addGap(24, 24, 24)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jFormattedTextField1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jFormattedTextField2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jButton1)
-                    .addComponent(jButton2))
+                    .addComponent(jLabel3)
+                    .addComponent(jLabel4))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(dataInicial, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(dataFinal, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(btInicial)
+                    .addComponent(btFinal))
                 .addGap(43, 43, 43)
                 .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 145, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(32, Short.MAX_VALUE))
+                .addContainerGap(27, Short.MAX_VALUE))
         );
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
@@ -194,22 +231,30 @@ public class Gerenciador extends javax.swing.JFrame {
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
-    private void jFormattedTextField1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jFormattedTextField1ActionPerformed
+    private void dataInicialActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_dataInicialActionPerformed
         // TODO add your handling code here:
-    }//GEN-LAST:event_jFormattedTextField1ActionPerformed
+    }//GEN-LAST:event_dataInicialActionPerformed
 
-    private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
+    private void btInicialActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btInicialActionPerformed
 
-        DefaultTableModel table = (DefaultTableModel) tabela.getModel();
         List<Movimentacao> movs = atual.getMovimentacoes();
-        for(Movimentacao m : movs){
-            System.out.println(m.toString());
+        String data = dataInicial.getText();
+        try {
+            DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd/MM/yyyy");
+            LocalDate date = LocalDate.parse(data, formatter);
+            while (table.getRowCount() > 0) {
+                table.removeRow(0);
+            }
+            for (Movimentacao m : movs) {
+                if (m.getData().compareTo(date) >= 0) {
+                    Object[] array = new Object[]{m.getDescricao(), m.getTipo(), m.getCategoria(), m.getValor(), m.getData()};
+                    table.addRow(array);
+                }
+            }
+        } catch (DateTimeParseException ex) {
+            JOptionPane.showMessageDialog(null, "Preencha corretamente a data!");
         }
-        for (Movimentacao m : movs) {
-            Object[] array = new Object[]{m.getDescricao(), m.getTipo(), m.getCategoria(), m.getValor(), m.getData()};
-            table.addRow(array);
-        }
-    }//GEN-LAST:event_jButton1ActionPerformed
+    }//GEN-LAST:event_btInicialActionPerformed
 
     private void jLabel2MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jLabel2MouseClicked
 
@@ -219,6 +264,10 @@ public class Gerenciador extends javax.swing.JFrame {
             JOptionPane.showMessageDialog(null, "Erro");
         } catch (ClassNotFoundException ex) {
             JOptionPane.showMessageDialog(null, "Erro");
+        } catch (EmailException ex) {
+            JOptionPane.showMessageDialog(null, ex.getMessage());
+        } catch (CadastroException ex) {
+            JOptionPane.showMessageDialog(null, ex.getMessage());
         }
         Inicial inicial = new Inicial();
         inicial.setVisible(true);
@@ -230,13 +279,50 @@ public class Gerenciador extends javax.swing.JFrame {
 
     private void tabelaMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_tabelaMouseClicked
 
+        CadastroMov cad = new CadastroMov();
+        cad.setVisible(true);
+        cad.setTitle("Alterar movimentação");
+        cad.setUsuario(atual);
+        String descricao = (String) tabela.getValueAt(tabela.getSelectedRow(), 0);
+        String tipo = (String) tabela.getValueAt(tabela.getSelectedRow(), 1);
+        String categoria = (String) tabela.getValueAt(tabela.getSelectedRow(), 2);
+        float valor = (float) tabela.getValueAt(tabela.getSelectedRow(), 3);
+        LocalDate data = (LocalDate) tabela.getValueAt(tabela.getSelectedRow(), 4);
+        Movimentacao m = new Movimentacao(descricao,categoria,valor,tipo,data,atual.getEmail());
+        cad.setMov(m);
+        cad.setAnterior(2);
+        dispose();
     }//GEN-LAST:event_tabelaMouseClicked
 
+    private void btFinalActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btFinalActionPerformed
+
+        DefaultTableModel table = (DefaultTableModel) tabela.getModel();
+        List<Movimentacao> movs = atual.getMovimentacoes();
+        String dataf = dataFinal.getText();
+        try {
+            DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd/MM/yyyy");
+            LocalDate dFinal = LocalDate.parse(dataf, formatter);
+            String datai = dataInicial.getText();
+            LocalDate dInicial = LocalDate.parse(datai, formatter);
+            while (table.getRowCount() > 0) {
+                table.removeRow(0);
+            }
+            for (Movimentacao m : movs) {
+                if (m.getData().compareTo(dInicial) >= 0 && m.getData().compareTo(dFinal) <= 0) {
+                    Object[] array = new Object[]{m.getDescricao(), m.getTipo(), m.getCategoria(), m.getValor(), m.getData()};
+                    table.addRow(array);
+                }
+            }
+        } catch (DateTimeParseException ex) {
+            JOptionPane.showMessageDialog(null, "Preencha corretamente a data!");
+        }
+    }//GEN-LAST:event_btFinalActionPerformed
+
     public void setUsuario(Usuario u) {
-        this.atual = u;
+        atual = u;
     }
-    
-    public Usuario getUsuario(){
+
+    private Usuario getUsuario() {
         return this.atual;
     }
 
@@ -276,12 +362,14 @@ public class Gerenciador extends javax.swing.JFrame {
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private javax.swing.JButton jButton1;
-    private javax.swing.JButton jButton2;
-    private javax.swing.JFormattedTextField jFormattedTextField1;
-    private javax.swing.JFormattedTextField jFormattedTextField2;
+    private javax.swing.JButton btFinal;
+    private javax.swing.JButton btInicial;
+    private javax.swing.JFormattedTextField dataFinal;
+    private javax.swing.JFormattedTextField dataInicial;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
+    private javax.swing.JLabel jLabel3;
+    private javax.swing.JLabel jLabel4;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JPanel jPanel2;
     private javax.swing.JScrollPane jScrollPane1;

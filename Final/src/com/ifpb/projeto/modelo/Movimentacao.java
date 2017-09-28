@@ -14,7 +14,8 @@ public class Movimentacao implements Serializable {
     private String email;
     
 
-    public Movimentacao(String descricao, String categoria, float valor, String tipo, LocalDate data, String email) {
+    public Movimentacao(String descricao, String categoria, float valor,
+            String tipo, LocalDate data, String email) {
         this.descricao = descricao;
         this.categoria = categoria;
         this.valor = valor;
