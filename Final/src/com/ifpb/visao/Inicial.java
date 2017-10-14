@@ -5,14 +5,13 @@
  */
 package com.ifpb.visao;
 
-import com.ifpb.projeto.controle.UsuarioDaoArquivo;
+import com.ifpb.projeto.controle.UsuarioDaoBanco;
 import com.ifpb.projeto.excecoes.CadastroException;
 import com.ifpb.projeto.excecoes.EmailException;
-import com.ifpb.projeto.modelo.Movimentacao;
 import com.ifpb.projeto.modelo.Usuario;
 import java.io.FileNotFoundException;
 import java.io.IOException;
-import java.util.List;
+import java.sql.SQLException;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.swing.ImageIcon;
@@ -28,14 +27,16 @@ public class Inicial extends javax.swing.JFrame {
      * Creates new form Inicial
      */
     private Usuario atual;
-    private UsuarioDaoArquivo dao;
+    private UsuarioDaoBanco dao;
     private int anterior;
 
     public Inicial() {
 
         try {
-            dao = new UsuarioDaoArquivo();
+            dao = new UsuarioDaoBanco();
         } catch (IOException ex) {
+            Logger.getLogger(Inicial.class.getName()).log(Level.SEVERE, null, ex);
+        } catch (SQLException ex) {
             Logger.getLogger(Inicial.class.getName()).log(Level.SEVERE, null, ex);
         }
         atual = new Usuario();
@@ -278,20 +279,25 @@ public class Inicial extends javax.swing.JFrame {
 
     private void jLabel2MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jLabel2MouseClicked
 
-        try {
-            dao.atualizar(atual);
-        } catch (IOException ex) {
-            Logger.getLogger(Inicial.class.getName()).log(Level.SEVERE, null, ex);
-        } catch (ClassNotFoundException ex) {
-            Logger.getLogger(Inicial.class.getName()).log(Level.SEVERE, null, ex);
-        } catch (EmailException ex) {
-            JOptionPane.showMessageDialog(null, ex.getMessage());
-        } catch (CadastroException ex) {
-            JOptionPane.showMessageDialog(null, ex.getMessage());
-        } finally {
-            Login login = new Login();
-            login.setVisible(true);
-            dispose();
+        if (JOptionPane.showConfirmDialog(null, "Deseja sair?","Logoff",
+                JOptionPane.YES_NO_CANCEL_OPTION) == 0) {
+            try {
+                dao.atualizar(atual);
+            } catch (IOException ex) {
+                Logger.getLogger(Inicial.class.getName()).log(Level.SEVERE, null, ex);
+            } catch (ClassNotFoundException ex) {
+                Logger.getLogger(Inicial.class.getName()).log(Level.SEVERE, null, ex);
+            } catch (EmailException ex) {
+                JOptionPane.showMessageDialog(null, ex.getMessage());
+            } catch (CadastroException ex) {
+                JOptionPane.showMessageDialog(null, ex.getMessage());
+            } catch (SQLException ex) {
+                Logger.getLogger(Inicial.class.getName()).log(Level.SEVERE, null, ex);
+            } finally {
+                Login login = new Login();
+                login.setVisible(true);
+                dispose();
+            }
         }
     }//GEN-LAST:event_jLabel2MouseClicked
 

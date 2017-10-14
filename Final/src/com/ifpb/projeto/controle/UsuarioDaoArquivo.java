@@ -10,45 +10,45 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
+import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 
 public class UsuarioDaoArquivo {
 
-    private File arquivoUsuario;
+    private File arquivo;
 
-    public UsuarioDaoArquivo() throws IOException {
-        arquivoUsuario = new File("C:\\Users\\flavi\\Desktop\\ADS\\3º Período\\P.O.O\\Projeto-POO\\Final\\usuarios.bin");
-        if (!arquivoUsuario.exists()) {
-            arquivoUsuario.createNewFile();
+    public UsuarioDaoArquivo() throws IOException,SQLException {
+        arquivo = new File("usuarios.bin");
+        if (!arquivo.exists()) {
+            arquivo.createNewFile();
         }
     }
 
     public List<Usuario> listar() throws ClassNotFoundException, IOException {
 
         List<Usuario> usuarios;
-        if (arquivoUsuario.length() > 0) {
-            ObjectInputStream reader = new ObjectInputStream(new FileInputStream(arquivoUsuario));
+        if (arquivo.length() > 0) {
+            ObjectInputStream reader = new ObjectInputStream(new FileInputStream(arquivo));
             usuarios = (List<Usuario>) reader.readObject();
             reader.close();
             return usuarios;
 
         } else {
             usuarios = new ArrayList<>();
-
         }
         return usuarios;
     }
 
     public boolean atualizar(Usuario u) throws FileNotFoundException, IOException,
-            ClassNotFoundException, EmailException, CadastroException {
+            ClassNotFoundException, EmailException, CadastroException,SQLException {
 
         List<Usuario> usuarios = listar();
         if (u.getEmail().equals("") || u.getNascimento() == null
                 || u.getNome().equals("") || u.getSenha().equals("") || u.getSexo().equals("")) {
             throw new CadastroException("Preencha todos os campos!");
         }
-        ObjectOutputStream writer = new ObjectOutputStream(new FileOutputStream(arquivoUsuario));
+        ObjectOutputStream writer = new ObjectOutputStream(new FileOutputStream(arquivo));
         for (int k = 0; k < usuarios.size(); k++) {
             if (usuarios.get(k).getEmail().equals(u.getEmail())) {
                 usuarios.remove(k);
@@ -62,7 +62,8 @@ public class UsuarioDaoArquivo {
         return false;
     }
 
-    public Usuario autenticar(String email, String senha) throws IOException, FileNotFoundException, ClassNotFoundException, EmailException {
+    public Usuario autenticar(String email, String senha) throws IOException, 
+            FileNotFoundException, ClassNotFoundException, EmailException,SQLException {
         List<Usuario> usuarios = listar();
         if (email.equals("") && senha.equals("")) {
             throw new EmailException("Preencha todos os campos!");
@@ -79,19 +80,18 @@ public class UsuarioDaoArquivo {
         return null;
     }
 
-    public boolean salvar(Usuario u) throws EmailException, CadastroException, FileNotFoundException, IOException, ClassNotFoundException {
+    public boolean salvar(Usuario u) throws EmailException, CadastroException,
+            FileNotFoundException, IOException, ClassNotFoundException,SQLException {
         List<Usuario> usuarios = listar();
-        for (Usuario user : usuarios) {
-            if (user.getEmail().equals(u.getEmail())) {
-                throw new EmailException("Email utilizado");
-            }
+        if (buscar(u.getEmail()) != null) {
+            throw new EmailException("Este email está sendo utilizado!");
         }
         if (u.getEmail().equals("") || u.getNascimento() == null
                 || u.getNome().equals("") || u.getSenha().equals("") || u.getSexo().equals("")) {
             throw new CadastroException("Preencha todos os campos!");
         }
         usuarios.add(u);
-        ObjectOutputStream writer = new ObjectOutputStream(new FileOutputStream(arquivoUsuario));
+        ObjectOutputStream writer = new ObjectOutputStream(new FileOutputStream(arquivo));
         writer.writeObject(usuarios);
         writer.close();
         return true;
@@ -99,7 +99,7 @@ public class UsuarioDaoArquivo {
 
     public boolean remover(Usuario u) throws IOException, ClassNotFoundException {
         List<Usuario> usuarios = listar();
-        ObjectOutputStream writer = new ObjectOutputStream(new FileOutputStream(arquivoUsuario));
+        ObjectOutputStream writer = new ObjectOutputStream(new FileOutputStream(arquivo));
         if (usuarios.remove(u)) {
             writer.writeObject(usuarios);
             writer.close();
@@ -116,8 +116,17 @@ public class UsuarioDaoArquivo {
         if (confirma.equals("")) {
             throw new CadastroException("Digite a confirmação de senha!");
         }
-
         return senha.equals(confirma);
+    }
+
+    public Usuario buscar(String email) throws ClassNotFoundException, IOException {
+        List<Usuario> usuarios = listar();
+        for (Usuario user : usuarios) {
+            if (user.getEmail().equals(email)) {
+                return user;
+            }
+        }
+        return null;
     }
 
 }

@@ -5,12 +5,14 @@
  */
 package com.ifpb.visao;
 
-import com.ifpb.projeto.controle.UsuarioDaoArquivo;
+import com.ifpb.projeto.controle.UsuarioDaoBanco;
 import com.ifpb.projeto.excecoes.CadastroException;
 import com.ifpb.projeto.excecoes.EmailException;
 import com.ifpb.projeto.modelo.Usuario;
 import java.io.FileNotFoundException;
 import java.io.IOException;
+import java.sql.Date;
+import java.sql.SQLException;
 import java.time.LocalDate;
 import java.time.ZoneId;
 import java.util.logging.Level;
@@ -24,20 +26,21 @@ import javax.swing.JOptionPane;
  */
 public class CadastroUsuario extends javax.swing.JFrame {
 
-    private UsuarioDaoArquivo dao;
+    private UsuarioDaoBanco dao;
     private int anterior;
     private Usuario atual;
 
     public CadastroUsuario() {
 
         atual = new Usuario();
-
         this.setIconImage(new ImageIcon("icone.jpg").getImage());
         this.setLocation(500, 110);
         try {
-            dao = new UsuarioDaoArquivo();
+            dao = new UsuarioDaoBanco();
         } catch (IOException ex) {
             JOptionPane.showMessageDialog(null, "Erro");
+        } catch (SQLException ex) {
+            Logger.getLogger(CadastroUsuario.class.getName()).log(Level.SEVERE, null, ex);
         }
         initComponents();
         grupo.add(masculino);
@@ -280,7 +283,7 @@ public class CadastroUsuario extends javax.swing.JFrame {
         setTitle("Cadastro de Usuário");
         setUndecorated(true);
 
-        jPanel1.setBackground(new java.awt.Color(204, 255, 204));
+        jPanel1.setBackground(new java.awt.Color(255, 255, 255));
         jPanel1.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0)));
 
         jLabel1.setFont(new java.awt.Font("Arial", 1, 14)); // NOI18N
@@ -300,6 +303,12 @@ public class CadastroUsuario extends javax.swing.JFrame {
 
         jLabel6.setFont(new java.awt.Font("Arial", 1, 14)); // NOI18N
         jLabel6.setText("Sexo");
+
+        cSenha.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                cSenhaActionPerformed(evt);
+            }
+        });
 
         feminino.setFont(new java.awt.Font("Arial", 0, 12)); // NOI18N
         feminino.setText("Feminino");
@@ -467,28 +476,29 @@ public class CadastroUsuario extends javax.swing.JFrame {
                 cSenha.getText());
         try {
             if (!dao.confirmaSenha(cSenha.getText(), cConfirma.getText())) {
-                JOptionPane.showMessageDialog(null, "Senha incorreta");
+                JOptionPane.showMessageDialog(null, "Senha incorreta","Erro",JOptionPane.ERROR_MESSAGE);
             } else {
                 if (anterior == 1) {
                     try {
                         if (dao.salvar(u)) {
-                            JOptionPane.showMessageDialog(null, "Cadastrado com sucesso");
+                            JOptionPane.showMessageDialog(null, "Cadastrado com sucesso!");
+                            limpar();
                         }
                     } catch (IOException | ClassNotFoundException ex) {
                         System.out.println("erro aqui");
-                    } catch (EmailException ex) {
+                    } catch (EmailException | CadastroException ex) {
                         JOptionPane.showMessageDialog(null, ex.getMessage());
-                    } catch (CadastroException ex) {
-                        JOptionPane.showMessageDialog(null, ex.getMessage());
+                    } catch (SQLException ex) {
+                        Logger.getLogger(CadastroUsuario.class.getName()).log(Level.SEVERE, null, ex);
                     }
                 } else {
                     try {
                         u.setMovimentacoes(atual.getMovimentacoes());
                         if (dao.atualizar(u)) {
                             JOptionPane.showMessageDialog(null, "Atualizado com sucesso");
-                            atual = u;    
+                            atual = u;
                         }
-                        
+
                     } catch (IOException ex) {
                         System.out.println("io");
                         JOptionPane.showMessageDialog(null, ex.getMessage());
@@ -498,6 +508,8 @@ public class CadastroUsuario extends javax.swing.JFrame {
                     } catch (EmailException ex) {
                         System.out.println("email");
                         JOptionPane.showMessageDialog(null, ex.getMessage());
+                    } catch (SQLException ex) {
+                        Logger.getLogger(CadastroUsuario.class.getName()).log(Level.SEVERE, null, ex);
                     }
                 }
             }
@@ -508,12 +520,8 @@ public class CadastroUsuario extends javax.swing.JFrame {
     }//GEN-LAST:event_btSalvarActionPerformed
 
     private void btLimparActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btLimparActionPerformed
-        cEmail.setText("");
-        cSenha.setText("");
-        cConfirma.setText("");
-        cNome.setText("");
-        calendario.setToolTipText("");
 
+        limpar();
     }//GEN-LAST:event_btLimparActionPerformed
 
     private void jLabel7MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jLabel7MouseClicked
@@ -537,6 +545,10 @@ public class CadastroUsuario extends javax.swing.JFrame {
         // TODO add your handling code here:
     }//GEN-LAST:event_jLabel15MouseClicked
 
+    private void cSenhaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cSenhaActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_cSenhaActionPerformed
+
     public void setAnterior(int i) {
         anterior = i;
 
@@ -550,6 +562,14 @@ public class CadastroUsuario extends javax.swing.JFrame {
 
     public void titulo(String titulo) {
         this.titulo.setText(titulo);
+    }
+
+    public void limpar() {
+        cEmail.setText("");
+        cSenha.setText("");
+        cConfirma.setText("");
+        cNome.setText("");
+        calendario.setDate(null);
     }
 
     /**
@@ -639,6 +659,7 @@ public class CadastroUsuario extends javax.swing.JFrame {
         cSenha.setText(atual.getSenha());
         cNome.setText(atual.getNome());
         cConfirma.setText(atual.getSenha());
+        calendario.setDate(Date.valueOf(atual.getNascimento()));
         if (atual.getSexo().equals("Masculino")) {
             grupo.setSelected(masculino.getModel(), true);
         } else {

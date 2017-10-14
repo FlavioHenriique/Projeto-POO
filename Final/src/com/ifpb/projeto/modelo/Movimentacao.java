@@ -12,7 +12,6 @@ public class Movimentacao implements Serializable {
     private String tipo;
     private LocalDate data;
     private String email;
-    
 
     public Movimentacao(String descricao, String categoria, float valor,
             String tipo, LocalDate data, String email) {
@@ -22,10 +21,10 @@ public class Movimentacao implements Serializable {
         this.tipo = tipo;
         this.data = data;
         this.email = email;
-        
+
     }
-    
-    public Movimentacao(){
+
+    public Movimentacao() {
     }
 
     public String getDescricao() {
@@ -75,7 +74,7 @@ public class Movimentacao implements Serializable {
     public void setEmail(String email) {
         this.email = email;
     }
-
+  
     @Override
     public String toString() {
         return "Movimentacao{" + "descricao=" + descricao + ", categoria=" + categoria + ", valor=" + valor + ", tipo=" + tipo + ", data=" + data + ", email=" + email + '}';
@@ -126,5 +125,4 @@ public class Movimentacao implements Serializable {
         return true;
     }
 
-    
 }

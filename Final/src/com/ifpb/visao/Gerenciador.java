@@ -5,13 +5,14 @@
  */
 package com.ifpb.visao;
 
-import com.ifpb.projeto.controle.UsuarioDaoArquivo;
+import com.ifpb.projeto.controle.UsuarioDaoBanco;
 import com.ifpb.projeto.excecoes.CadastroException;
 import com.ifpb.projeto.excecoes.EmailException;
 import com.ifpb.projeto.modelo.Movimentacao;
 import com.ifpb.projeto.modelo.Usuario;
 import java.io.FileNotFoundException;
 import java.io.IOException;
+import java.sql.SQLException;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 import java.time.format.DateTimeParseException;
@@ -33,15 +34,18 @@ public class Gerenciador extends javax.swing.JFrame {
      *
      */
     private Usuario atual;
-    private UsuarioDaoArquivo dao;
+    private UsuarioDaoBanco dao;
     private DefaultTableModel table;
 
     public Gerenciador() {
+        
         try {
-            dao = new UsuarioDaoArquivo();
+            dao = new UsuarioDaoBanco();
         } catch (IOException ex) {
             JOptionPane.showMessageDialog(null, "Erro ao conectar-se");
 
+        } catch (SQLException ex) {
+            Logger.getLogger(Gerenciador.class.getName()).log(Level.SEVERE, null, ex);
         }
         this.setLocation(500, 110);
         this.setIconImage(new ImageIcon("icone.jpg").getImage());
@@ -59,10 +63,10 @@ public class Gerenciador extends javax.swing.JFrame {
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
+        jLabel5 = new javax.swing.JLabel();
         jPanel1 = new javax.swing.JPanel();
         dataInicial = new javax.swing.JFormattedTextField();
         dataFinal = new javax.swing.JFormattedTextField();
-        btInicial = new javax.swing.JButton();
         btFinal = new javax.swing.JButton();
         jScrollPane1 = new javax.swing.JScrollPane();
         tabela = new javax.swing.JTable();
@@ -71,6 +75,9 @@ public class Gerenciador extends javax.swing.JFrame {
         jLabel2 = new javax.swing.JLabel();
         jLabel3 = new javax.swing.JLabel();
         jLabel4 = new javax.swing.JLabel();
+        btGrafico = new javax.swing.JButton();
+
+        jLabel5.setText("jLabel5");
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setUndecorated(true);
@@ -95,16 +102,6 @@ public class Gerenciador extends javax.swing.JFrame {
             ex.printStackTrace();
         }
 
-        btInicial.setBackground(new java.awt.Color(0, 102, 0));
-        btInicial.setFont(new java.awt.Font("Arial", 1, 14)); // NOI18N
-        btInicial.setForeground(new java.awt.Color(255, 255, 255));
-        btInicial.setText("Calcular");
-        btInicial.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                btInicialActionPerformed(evt);
-            }
-        });
-
         btFinal.setBackground(new java.awt.Color(0, 102, 0));
         btFinal.setFont(new java.awt.Font("Arial", 1, 14)); // NOI18N
         btFinal.setForeground(new java.awt.Color(255, 255, 255));
@@ -115,6 +112,7 @@ public class Gerenciador extends javax.swing.JFrame {
             }
         });
 
+        tabela.setFont(new java.awt.Font("Arial", 0, 12)); // NOI18N
         tabela.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
 
@@ -173,6 +171,16 @@ public class Gerenciador extends javax.swing.JFrame {
         jLabel4.setFont(new java.awt.Font("Arial", 1, 14)); // NOI18N
         jLabel4.setText("Data final");
 
+        btGrafico.setBackground(new java.awt.Color(0, 102, 0));
+        btGrafico.setFont(new java.awt.Font("Arial", 1, 14)); // NOI18N
+        btGrafico.setForeground(new java.awt.Color(255, 255, 255));
+        btGrafico.setText("Gráfico");
+        btGrafico.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btGraficoActionPerformed(evt);
+            }
+        });
+
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);
         jPanel1Layout.setHorizontalGroup(
@@ -184,37 +192,44 @@ public class Gerenciador extends javax.swing.JFrame {
                     .addGroup(jPanel1Layout.createSequentialGroup()
                         .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addGroup(jPanel1Layout.createSequentialGroup()
-                                .addComponent(dataInicial, javax.swing.GroupLayout.PREFERRED_SIZE, 81, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addGap(18, 18, 18)
-                                .addComponent(btInicial))
-                            .addComponent(jLabel3))
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                .addComponent(jLabel3)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                             .addGroup(jPanel1Layout.createSequentialGroup()
-                                .addComponent(dataFinal, javax.swing.GroupLayout.PREFERRED_SIZE, 96, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addGap(18, 18, 18)
-                                .addComponent(btFinal))
-                            .addComponent(jLabel4)))
+                                .addComponent(dataInicial, javax.swing.GroupLayout.PREFERRED_SIZE, 81, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                .addComponent(btFinal)
+                                .addGap(86, 86, 86)))
+                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                            .addComponent(dataFinal)
+                            .addComponent(jLabel4, javax.swing.GroupLayout.PREFERRED_SIZE, 96, javax.swing.GroupLayout.PREFERRED_SIZE)))
                     .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 452, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addContainerGap(40, Short.MAX_VALUE))
+                .addContainerGap(35, Short.MAX_VALUE))
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addComponent(btGrafico)
+                .addGap(217, 217, 217))
         );
         jPanel1Layout.setVerticalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel1Layout.createSequentialGroup()
                 .addComponent(jPanel2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(24, 24, 24)
-                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jLabel3)
-                    .addComponent(jLabel4))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(dataInicial, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(dataFinal, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(btInicial)
-                    .addComponent(btFinal))
-                .addGap(43, 43, 43)
+                .addGap(26, 26, 26)
+                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                    .addGroup(jPanel1Layout.createSequentialGroup()
+                        .addComponent(jLabel3)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                        .addComponent(dataInicial, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addGroup(jPanel1Layout.createSequentialGroup()
+                        .addComponent(jLabel4)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                            .addComponent(dataFinal, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(btFinal))))
+                .addGap(41, 41, 41)
                 .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 145, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(27, Short.MAX_VALUE))
+                .addGap(18, 18, 18)
+                .addComponent(btGrafico)
+                .addContainerGap(24, Short.MAX_VALUE))
         );
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
@@ -235,27 +250,6 @@ public class Gerenciador extends javax.swing.JFrame {
         // TODO add your handling code here:
     }//GEN-LAST:event_dataInicialActionPerformed
 
-    private void btInicialActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btInicialActionPerformed
-
-        List<Movimentacao> movs = atual.getMovimentacoes();
-        String data = dataInicial.getText();
-        try {
-            DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd/MM/yyyy");
-            LocalDate date = LocalDate.parse(data, formatter);
-            while (table.getRowCount() > 0) {
-                table.removeRow(0);
-            }
-            for (Movimentacao m : movs) {
-                if (m.getData().compareTo(date) >= 0) {
-                    Object[] array = new Object[]{m.getDescricao(), m.getTipo(), m.getCategoria(), m.getValor(), m.getData()};
-                    table.addRow(array);
-                }
-            }
-        } catch (DateTimeParseException ex) {
-            JOptionPane.showMessageDialog(null, "Preencha corretamente a data!");
-        }
-    }//GEN-LAST:event_btInicialActionPerformed
-
     private void jLabel2MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jLabel2MouseClicked
 
         try {
@@ -268,6 +262,8 @@ public class Gerenciador extends javax.swing.JFrame {
             JOptionPane.showMessageDialog(null, ex.getMessage());
         } catch (CadastroException ex) {
             JOptionPane.showMessageDialog(null, ex.getMessage());
+        } catch (SQLException ex) {
+            Logger.getLogger(Gerenciador.class.getName()).log(Level.SEVERE, null, ex);
         }
         Inicial inicial = new Inicial();
         inicial.setVisible(true);
@@ -281,26 +277,27 @@ public class Gerenciador extends javax.swing.JFrame {
 
         CadastroMov cad = new CadastroMov();
         cad.setVisible(true);
-        cad.setTitle("Alterar movimentação");
         cad.setUsuario(atual);
         String descricao = (String) tabela.getValueAt(tabela.getSelectedRow(), 0);
         String tipo = (String) tabela.getValueAt(tabela.getSelectedRow(), 1);
         String categoria = (String) tabela.getValueAt(tabela.getSelectedRow(), 2);
         float valor = (float) tabela.getValueAt(tabela.getSelectedRow(), 3);
-        LocalDate data = (LocalDate) tabela.getValueAt(tabela.getSelectedRow(), 4);
-        Movimentacao m = new Movimentacao(descricao,categoria,valor,tipo,data,atual.getEmail());
-        cad.setMov(m);
+        String data = (String) tabela.getValueAt(tabela.getSelectedRow(), 4);
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd/MM/yyyy");
+        LocalDate date = LocalDate.parse(data, formatter);
+        Movimentacao m = new Movimentacao(descricao, categoria, valor, tipo, date, atual.getEmail());
+        cad.setMov(m,"Alterar movimentação");
         cad.setAnterior(2);
         dispose();
     }//GEN-LAST:event_tabelaMouseClicked
 
     private void btFinalActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btFinalActionPerformed
 
-        DefaultTableModel table = (DefaultTableModel) tabela.getModel();
         List<Movimentacao> movs = atual.getMovimentacoes();
-        String dataf = dataFinal.getText();
+
         try {
             DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd/MM/yyyy");
+            String dataf = dataFinal.getText();
             LocalDate dFinal = LocalDate.parse(dataf, formatter);
             String datai = dataInicial.getText();
             LocalDate dInicial = LocalDate.parse(datai, formatter);
@@ -309,15 +306,22 @@ public class Gerenciador extends javax.swing.JFrame {
             }
             for (Movimentacao m : movs) {
                 if (m.getData().compareTo(dInicial) >= 0 && m.getData().compareTo(dFinal) <= 0) {
-                    Object[] array = new Object[]{m.getDescricao(), m.getTipo(), m.getCategoria(), m.getValor(), m.getData()};
+                    Object[] array = new Object[]{m.getDescricao(), m.getTipo(),
+                        m.getCategoria(), m.getValor(), m.getData().format(formatter)};
                     table.addRow(array);
                 }
             }
+            dataInicial.setText("");
+            dataFinal.setText("");
         } catch (DateTimeParseException ex) {
-            JOptionPane.showMessageDialog(null, "Preencha corretamente a data!");
+            JOptionPane.showMessageDialog(null, "Preencha corretamente as datas!");
         }
     }//GEN-LAST:event_btFinalActionPerformed
 
+    private void btGraficoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btGraficoActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_btGraficoActionPerformed
+   
     public void setUsuario(Usuario u) {
         atual = u;
     }
@@ -363,13 +367,14 @@ public class Gerenciador extends javax.swing.JFrame {
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btFinal;
-    private javax.swing.JButton btInicial;
+    private javax.swing.JButton btGrafico;
     private javax.swing.JFormattedTextField dataFinal;
     private javax.swing.JFormattedTextField dataInicial;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
     private javax.swing.JLabel jLabel4;
+    private javax.swing.JLabel jLabel5;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JPanel jPanel2;
     private javax.swing.JScrollPane jScrollPane1;
