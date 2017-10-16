@@ -319,7 +319,8 @@ public class Gerenciador extends javax.swing.JFrame {
     }//GEN-LAST:event_btFinalActionPerformed
 
     private void btGraficoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btGraficoActionPerformed
-        // TODO add your handling code here:
+        
+       
     }//GEN-LAST:event_btGraficoActionPerformed
    
     public void setUsuario(Usuario u) {

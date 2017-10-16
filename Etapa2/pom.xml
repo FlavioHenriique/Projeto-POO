@@ -11,11 +11,26 @@
         <maven.compiler.target>1.8</maven.compiler.target>
     </properties>
     
-     <dependencies>  
+    <dependencies>  
         <dependency>
             <groupId>org.postgresql</groupId>
             <artifactId>postgresql</artifactId>
             <version>9.4.1212</version>
         </dependency>
+        
+        <dependency>
+            <groupId>jfree</groupId>
+            <artifactId>jcommon</artifactId>
+            <version>1.0.16</version>
+        </dependency>
+        
+        <dependency>
+            <groupId>jfree</groupId>
+            <artifactId>jfreechart</artifactId>
+            <version>1.0.13</version>
+        </dependency>
+        
+
+
     </dependencies>
 </project>
