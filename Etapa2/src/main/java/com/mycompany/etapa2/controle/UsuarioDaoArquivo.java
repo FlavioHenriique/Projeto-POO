@@ -28,6 +28,7 @@ public class UsuarioDaoArquivo {
     private File arquivo;
 
     /**
+     * Construtor de UsuarioDaoArquivo
      *Determina que o arquivo utilizado é o usuarios.bin e instancia um novo 
      * arquivo caso ainda não exista.
      * @throws IOException
@@ -96,7 +97,7 @@ public class UsuarioDaoArquivo {
     }
     
     /**
-     * 
+     * Realiza a autenticação de usuário no arquivo
      * @param email é o email digitado pelo usuário
      * @param senha é a senha digitada pelo usuário
      * @return null caso o usuário com este email e senha não exista ou retorna o
@@ -126,7 +127,7 @@ public class UsuarioDaoArquivo {
     }
 
     /**
-     * 
+     * Salva um usuário no arquivo
      * @param u é o usuário que será salvo no arquivo
      * @return verdadeiro ou falso, caso seja salvo no arquivo ou não.
      * @throws EmailException
@@ -155,7 +156,7 @@ public class UsuarioDaoArquivo {
     }
 
     /**
-     * 
+     * Remove um usuário do arquivo
      * @param u é o usuário que será removido
      * @return verdadeiro ou falso, caso o usuário seja removido ou não
      * @throws IOException
@@ -177,7 +178,7 @@ public class UsuarioDaoArquivo {
     }
     
     /**
-     * 
+     * Realiza a confirmação de senha no cadastro de usuário
      * @param senha é a senha digitada pelo usuário no campo 'senha'
      * @param confirma é a confirmação de senha digitada no campo 'confirma senha'
      * @return verdadeiro ou falso, caso as duas sejam iguais ou não.
@@ -192,7 +193,7 @@ public class UsuarioDaoArquivo {
     }
 
     /**
-     * 
+     * Realiza a busca de um usuário a partir do email
      * @param email´é o email do usuário que está sendo buscado
      * @return retorna o usuário, caso seja encontrado, ou null, caso não exista
      * @throws ClassNotFoundException

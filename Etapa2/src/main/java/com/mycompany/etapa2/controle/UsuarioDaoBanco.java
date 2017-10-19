@@ -6,7 +6,7 @@
 package com.mycompany.etapa2.controle;
 
 /**
- *
+ * Realiza o CRUD de usuários e salva os dados no banco de dados 'projetoPOO'
  * @author Flavio
  */
 
@@ -37,10 +37,22 @@ public class UsuarioDaoBanco {
 
     private ConFactory factory;
 
+    
+    /**
+     * Construtor do UsuarioDaoBanco
+     * @throws SQLException
+     * @throws IOException 
+     */
     public UsuarioDaoBanco() throws SQLException, IOException {
         factory = new ConFactory();
     }
 
+    /**
+     * Realiza a listagem dos usuários que estão salvos no banco
+     * @return uma lista com os usuários presentes no banco
+     * @throws ClassNotFoundException
+     * @throws SQLException 
+     */
     public List<Usuario> listar() throws ClassNotFoundException, SQLException {
 
         Connection con = factory.getConnection();
@@ -76,6 +88,16 @@ public class UsuarioDaoBanco {
         return usuarios;
     }
 
+    /**
+     * Realiza a adição de um novo usuário no banco de dados
+     * @param u é o usuário que será adicionado no banco de dados
+     * @return verdadeiro ou falso, dependendo do salvamento
+     * @throws ClassNotFoundException
+     * @throws SQLException
+     * @throws IOException
+     * @throws CadastroException
+     * @throws EmailException 
+     */
     public boolean salvar(Usuario u) throws ClassNotFoundException, SQLException,
             IOException, CadastroException, EmailException {
 
@@ -100,7 +122,18 @@ public class UsuarioDaoBanco {
             return false;
         }
     }
-
+    
+    /**
+     * Realiza a autenticação de usuário no banco de dados
+     * @param email é o email que foi digitado pelo usuário
+     * @param senha é a senha digitada pelo usuário
+     * @return null caso um usuário com este email e senha não exista ou o próprio usuário,
+     * caso exista.
+     * @throws ClassNotFoundException
+     * @throws SQLException
+     * @throws EmailException
+     * @throws IOException 
+     */
     public Usuario autenticar(String email, String senha) throws
             ClassNotFoundException, SQLException, EmailException, IOException {
 
@@ -124,6 +157,13 @@ public class UsuarioDaoBanco {
         return null;
     }
 
+    /**
+     * 
+     * @param senha é a senha digitada pelo usuário no campo 'senha'
+     * @param confirma é a confirmação de senha digitada no campo 'confirma senha'
+     * @return verdadeiro ou falso, caso sejam diferentes.
+     * @throws CadastroException 
+     */
     public boolean confirmaSenha(String senha, String confirma) throws CadastroException {
 
         if (confirma.equals("")) {
@@ -132,6 +172,14 @@ public class UsuarioDaoBanco {
         return senha.equals(confirma);
     }
 
+    /**
+     * Realiza a busca de um usuário pelo email no banco de dados
+     * @param email é o email do usuário que está sendo buscado
+     * @return null caso não encontre o usuário ou o próprio usuário, caso seja
+     * encontrado
+     * @throws ClassNotFoundException
+     * @throws SQLException 
+     */
     public Usuario buscar(String email) throws ClassNotFoundException, SQLException {
 
         List<Usuario> usuarios = listar();
@@ -142,7 +190,18 @@ public class UsuarioDaoBanco {
         }
         return null;
     }
-
+    
+    /**
+     * Realiza a atualização de um usuário no banco de dados.
+     * @param u É o usuário que será atualizado no banco
+     * @return verdadeiro ou falso, caso ele seja atualizado ou não
+     * @throws FileNotFoundException
+     * @throws IOException
+     * @throws ClassNotFoundException
+     * @throws EmailException
+     * @throws CadastroException
+     * @throws SQLException 
+     */
     public boolean atualizar(Usuario u) throws FileNotFoundException, IOException,
             ClassNotFoundException, EmailException, CadastroException, SQLException {
 
@@ -167,6 +226,13 @@ public class UsuarioDaoBanco {
         return atualizaUsuario.executeUpdate() > 0;
     }
 
+    /**
+     * Realiza a busca das movimentações de um determinado usuário no banco de dados
+     * @param email é o email do usuário atual
+     * @return uma lista de movimentações daquele usuário
+     * @throws ClassNotFoundException
+     * @throws SQLException 
+     */
     public List<Movimentacao> listarMovs(String email) throws ClassNotFoundException,
             SQLException {
 
@@ -187,7 +253,13 @@ public class UsuarioDaoBanco {
         }
         return movs;
     }
-
+    
+    /**
+     * Realiza o salvamento de movimentações no banco de dados
+     * @param movimentacoes é a lista de movimentações para serem salvas no banco
+     * @throws ClassNotFoundException
+     * @throws SQLException 
+     */
     private void salvaMovs(List<Movimentacao> movimentacoes) throws
             ClassNotFoundException, SQLException {
 
