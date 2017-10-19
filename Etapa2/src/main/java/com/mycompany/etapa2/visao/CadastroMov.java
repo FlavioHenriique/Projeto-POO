@@ -5,7 +5,7 @@
  */
 package com.mycompany.etapa2.visao;
 
-import com.mycompany.etapa2.controle.UsuarioDaoBanco;
+import com.mycompany.etapa2.controle.UsuarioDaoArquivo;
 import com.mycompany.etapa2.excecoes.CadastroException;
 import com.mycompany.etapa2.excecoes.EmailException;
 import com.mycompany.etapa2.modelo.Movimentacao;
@@ -30,7 +30,7 @@ public class CadastroMov extends javax.swing.JFrame {
      * Creates new form CadastroMov
      */
     private Usuario atual;
-    private UsuarioDaoBanco dao;
+    private UsuarioDaoArquivo dao;
     private int anterior;
     private Movimentacao antiga;
 
@@ -38,7 +38,7 @@ public class CadastroMov extends javax.swing.JFrame {
         atual = new Usuario();
         antiga = new Movimentacao();
         try {
-            dao = new UsuarioDaoBanco();
+            dao = new UsuarioDaoArquivo();
         } catch (IOException ex) {
             JOptionPane.showMessageDialog(null, "erro ao conectar-se");
         } catch (SQLException ex) {
@@ -48,6 +48,7 @@ public class CadastroMov extends javax.swing.JFrame {
         this.setIconImage(new ImageIcon("icone.jpg").getImage());
 
         initComponents();
+        btDeletar.setVisible(false);
     }
 
     /**
@@ -75,6 +76,7 @@ public class CadastroMov extends javax.swing.JFrame {
         calendario = new com.toedter.calendar.JDateChooser();
         btSalvar = new javax.swing.JButton();
         btLimpar = new javax.swing.JButton();
+        btDeletar = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setUndecorated(true);
@@ -165,6 +167,16 @@ public class CadastroMov extends javax.swing.JFrame {
             }
         });
 
+        btDeletar.setBackground(new java.awt.Color(51, 102, 0));
+        btDeletar.setFont(new java.awt.Font("Arial", 1, 14)); // NOI18N
+        btDeletar.setForeground(new java.awt.Color(255, 255, 255));
+        btDeletar.setText("DELETAR");
+        btDeletar.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btDeletarActionPerformed(evt);
+            }
+        });
+
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);
         jPanel1Layout.setHorizontalGroup(
@@ -172,8 +184,14 @@ public class CadastroMov extends javax.swing.JFrame {
             .addComponent(jPanel2, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
             .addGroup(jPanel1Layout.createSequentialGroup()
                 .addGap(21, 21, 21)
-                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                    .addGroup(javax.swing.GroupLayout.Alignment.LEADING, jPanel1Layout.createSequentialGroup()
+                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(jPanel1Layout.createSequentialGroup()
+                        .addComponent(btSalvar)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(btDeletar, javax.swing.GroupLayout.PREFERRED_SIZE, 95, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addComponent(btLimpar))
+                    .addGroup(jPanel1Layout.createSequentialGroup()
                         .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addComponent(jLabel3)
                             .addComponent(jLabel4)
@@ -182,8 +200,9 @@ public class CadastroMov extends javax.swing.JFrame {
                         .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                             .addComponent(descricao)
                             .addComponent(tipo, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                            .addComponent(categoria, 0, 170, Short.MAX_VALUE)))
-                    .addGroup(javax.swing.GroupLayout.Alignment.LEADING, jPanel1Layout.createSequentialGroup()
+                            .addComponent(categoria, 0, 170, Short.MAX_VALUE))
+                        .addGap(0, 0, Short.MAX_VALUE))
+                    .addGroup(jPanel1Layout.createSequentialGroup()
                         .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addComponent(jLabel6)
                             .addComponent(jLabel5))
@@ -192,12 +211,6 @@ public class CadastroMov extends javax.swing.JFrame {
                             .addComponent(valor)
                             .addComponent(calendario, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))))
                 .addGap(42, 42, 42))
-            .addGroup(jPanel1Layout.createSequentialGroup()
-                .addGap(38, 38, 38)
-                .addComponent(btSalvar)
-                .addGap(75, 75, 75)
-                .addComponent(btLimpar)
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
         jPanel1Layout.setVerticalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -226,7 +239,8 @@ public class CadastroMov extends javax.swing.JFrame {
                 .addGap(23, 23, 23)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(btSalvar)
-                    .addComponent(btLimpar))
+                    .addComponent(btLimpar)
+                    .addComponent(btDeletar))
                 .addGap(0, 23, Short.MAX_VALUE))
         );
 
@@ -307,6 +321,15 @@ public class CadastroMov extends javax.swing.JFrame {
         limpar();
     }//GEN-LAST:event_btLimparActionPerformed
 
+    private void btDeletarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btDeletarActionPerformed
+
+        if (atual.deletarMov(antiga)) {
+                JOptionPane.showMessageDialog(null, "Movimentação deletada!");
+                limpar();
+        }
+
+    }//GEN-LAST:event_btDeletarActionPerformed
+
     public void setUsuario(Usuario u) {
         atual = u;
     }
@@ -326,6 +349,7 @@ public class CadastroMov extends javax.swing.JFrame {
 
     public void setAnterior(int a) {
         anterior = a;
+        btDeletar.setVisible(true);
     }
 
     public void setMov(Movimentacao m, String title) {
@@ -375,6 +399,7 @@ public class CadastroMov extends javax.swing.JFrame {
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JButton btDeletar;
     private javax.swing.JButton btLimpar;
     private javax.swing.JButton btSalvar;
     private com.toedter.calendar.JDateChooser calendario;

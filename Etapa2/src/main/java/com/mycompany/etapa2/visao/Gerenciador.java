@@ -5,11 +5,12 @@
  */
 package com.mycompany.etapa2.visao;
 
-import com.mycompany.etapa2.controle.UsuarioDaoBanco;
+import com.mycompany.etapa2.controle.UsuarioDaoArquivo;
 import com.mycompany.etapa2.excecoes.CadastroException;
 import com.mycompany.etapa2.excecoes.EmailException;
 import com.mycompany.etapa2.modelo.Movimentacao;
 import com.mycompany.etapa2.modelo.Usuario;
+import java.awt.Color;
 import java.io.IOException;
 import java.sql.SQLException;
 import java.time.LocalDate;
@@ -25,6 +26,7 @@ import javax.swing.table.DefaultTableModel;
 import org.jfree.chart.ChartFactory;
 import org.jfree.chart.ChartPanel;
 import org.jfree.chart.JFreeChart;
+import org.jfree.chart.plot.CategoryPlot;
 import org.jfree.chart.plot.PlotOrientation;
 import org.jfree.data.category.DefaultCategoryDataset;
 
@@ -38,12 +40,12 @@ public class Gerenciador extends javax.swing.JFrame {
      * Creates new form Gerenciador
      */
     private Usuario atual;
-    private UsuarioDaoBanco dao;
+    private UsuarioDaoArquivo dao;
     private DefaultTableModel table;
 
     public Gerenciador() {
         try {
-            dao = new UsuarioDaoBanco();
+            dao = new UsuarioDaoArquivo();
         } catch (IOException ex) {
             JOptionPane.showMessageDialog(null, "Erro ao conectar-se");
 
@@ -114,7 +116,7 @@ public class Gerenciador extends javax.swing.JFrame {
         jPanel2Layout.setHorizontalGroup(
             jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel2Layout.createSequentialGroup()
-                .addGap(23, 23, 23)
+                .addContainerGap()
                 .addComponent(jLabel1)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addComponent(jLabel2)
@@ -266,27 +268,30 @@ public class Gerenciador extends javax.swing.JFrame {
 
     private void btCalcularActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btCalcularActionPerformed
         List<Movimentacao> movs = atual.getMovimentacoes();
-
-        try {
-            DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd/MM/yyyy");
-            String dataf = dataFinal.getText();
-            LocalDate dFinal = LocalDate.parse(dataf, formatter);
-            String datai = dataInicial.getText();
-            LocalDate dInicial = LocalDate.parse(datai, formatter);
-            while (table.getRowCount() > 0) {
-                table.removeRow(0);
-            }
-            for (Movimentacao m : movs) {
-                if (m.getData().compareTo(dInicial) >= 0 && m.getData().compareTo(dFinal) <= 0) {
-                    Object[] array = new Object[]{m.getDescricao(), m.getTipo(),
-                        m.getCategoria(), m.getValor(), m.getData().format(formatter)};
-                    table.addRow(array);
+        if (movs.isEmpty()) {
+            JOptionPane.showMessageDialog(null, "Você não cadastrou nenhuma movimentação!");
+        } else {
+            try {
+                DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd/MM/yyyy");
+                String dataf = dataFinal.getText();
+                LocalDate dFinal = LocalDate.parse(dataf, formatter);
+                String datai = dataInicial.getText();
+                LocalDate dInicial = LocalDate.parse(datai, formatter);
+                while (table.getRowCount() > 0) {
+                    table.removeRow(0);
                 }
+                for (Movimentacao m : movs) {
+                    if (m.getData().compareTo(dInicial) >= 0 && m.getData().compareTo(dFinal) <= 0) {
+                        Object[] array = new Object[]{m.getDescricao(), m.getTipo(),
+                            m.getCategoria(), m.getValor(), m.getData().format(formatter)};
+                        table.addRow(array);
+                    }
+                }
+                dataInicial.setText("");
+                dataFinal.setText("");
+            } catch (DateTimeParseException ex) {
+                JOptionPane.showMessageDialog(null, "Preencha corretamente as datas!");
             }
-            dataInicial.setText("");
-            dataFinal.setText("");
-        } catch (DateTimeParseException ex) {
-            JOptionPane.showMessageDialog(null, "Preencha corretamente as datas!");
         }
     }//GEN-LAST:event_btCalcularActionPerformed
 
@@ -353,15 +358,26 @@ public class Gerenciador extends javax.swing.JFrame {
         dt.setValue(saude, "x", "Saúde");
         dt.setValue(outros, "x", "Outros");
 
-        JFreeChart grafico = ChartFactory.createBarChart("Gráfico", "categorias", "valores", dt,
-                PlotOrientation.VERTICAL, false, true, false);
+        JFreeChart grafico = ChartFactory.createBarChart3D("Gráfico", "categorias",
+                "valores", dt, PlotOrientation.VERTICAL, false, true, false);
+
+        CategoryPlot plot = grafico.getCategoryPlot();
+        plot.setBackgroundPaint(Color.white);
+        plot.setOutlinePaint(Color.black);
+
+        for (int k = 0; k < 6; k++) {
+            plot.getRenderer().setSeriesPaint(k, Color.GREEN);
+        }
+
         ChartPanel panGrafico = new ChartPanel(grafico);
+
         JFrame frame = new JFrame();
         frame.add(panGrafico);
         frame.pack();
         frame.setTitle("Gráfico ");
         frame.setIconImage(new ImageIcon("icone.jpg").getImage());
         frame.setVisible(true);
+        frame.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
     }//GEN-LAST:event_btGraficoActionPerformed
 
     /**

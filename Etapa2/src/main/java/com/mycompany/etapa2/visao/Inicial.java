@@ -6,7 +6,7 @@
 package com.mycompany.etapa2.visao;
 
 
-import com.mycompany.etapa2.controle.UsuarioDaoBanco;
+import com.mycompany.etapa2.controle.UsuarioDaoArquivo;
 import com.mycompany.etapa2.excecoes.CadastroException;
 import com.mycompany.etapa2.excecoes.EmailException;
 import com.mycompany.etapa2.modelo.Usuario;
@@ -27,12 +27,12 @@ public class Inicial extends javax.swing.JFrame {
      * Creates new form Inicial
      */
     private Usuario atual;
-    private UsuarioDaoBanco dao;
+    private UsuarioDaoArquivo dao;
     private int anterior;
 
     public Inicial() {
         try {
-            dao = new UsuarioDaoBanco();
+            dao = new UsuarioDaoArquivo();
         } catch (IOException ex) {
             Logger.getLogger(Inicial.class.getName()).log(Level.SEVERE, null, ex);
         } catch (SQLException ex) {
@@ -121,7 +121,7 @@ public class Inicial extends javax.swing.JFrame {
         );
 
         jPanel3.setBackground(new java.awt.Color(0, 204, 0));
-        jPanel3.setBorder(new javax.swing.border.LineBorder(new java.awt.Color(0, 0, 0), 2, true));
+        jPanel3.setBorder(new javax.swing.border.LineBorder(new java.awt.Color(0, 0, 0), 3, true));
 
         jLabel4.setFont(new java.awt.Font("Arial", 1, 16)); // NOI18N
         jLabel4.setForeground(new java.awt.Color(255, 255, 255));
@@ -158,7 +158,7 @@ public class Inicial extends javax.swing.JFrame {
         );
 
         jPanel4.setBackground(new java.awt.Color(0, 204, 0));
-        jPanel4.setBorder(new javax.swing.border.LineBorder(new java.awt.Color(0, 0, 0), 2, true));
+        jPanel4.setBorder(new javax.swing.border.LineBorder(new java.awt.Color(0, 0, 0), 3, true));
 
         jLabel5.setFont(new java.awt.Font("Arial", 1, 16)); // NOI18N
         jLabel5.setForeground(new java.awt.Color(255, 255, 255));
@@ -196,7 +196,7 @@ public class Inicial extends javax.swing.JFrame {
         );
 
         jPanel5.setBackground(new java.awt.Color(0, 204, 0));
-        jPanel5.setBorder(new javax.swing.border.LineBorder(new java.awt.Color(0, 0, 0), 2, true));
+        jPanel5.setBorder(new javax.swing.border.LineBorder(new java.awt.Color(0, 0, 0), 3, true));
 
         jLabel3.setFont(new java.awt.Font("Arial", 1, 16)); // NOI18N
         jLabel3.setForeground(new java.awt.Color(255, 255, 255));
@@ -251,7 +251,7 @@ public class Inicial extends javax.swing.JFrame {
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel1Layout.createSequentialGroup()
                 .addComponent(jPanel2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 185, Short.MAX_VALUE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 183, Short.MAX_VALUE)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                     .addComponent(jPanel3, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addComponent(jPanel4, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
@@ -276,7 +276,7 @@ public class Inicial extends javax.swing.JFrame {
     private void jLabel1MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jLabel1MouseClicked
         
         if (JOptionPane.showConfirmDialog(null, "Deseja sair?", "Logoff",
-                JOptionPane.YES_NO_CANCEL_OPTION) == 0) {
+                JOptionPane.YES_NO_OPTION) == 0) {
             try {
                 dao.atualizar(atual);
             } catch (IOException ex) {

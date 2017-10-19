@@ -83,6 +83,10 @@ public class Usuario implements Serializable {
 
         return movimentacoes.add(m);
     }
+    
+    public boolean deletarMov(Movimentacao m){
+        return movimentacoes.remove(m);
+    }
 
     public boolean atualizarMov(Movimentacao atual, Movimentacao nova) throws CadastroException {
 
