@@ -1,12 +1,8 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
+
 package com.mycompany.etapa2.controle;
 
 /**
- *
+ * Essa classe realiza o CRUD de usuários e faz a persistência em arquivos
  * @author Flavio
  */
 import com.mycompany.etapa2.excecoes.EmailException;
@@ -31,6 +27,12 @@ public class UsuarioDaoArquivo {
 
     private File arquivo;
 
+    /**
+     *Determina que o arquivo utilizado é o usuarios.bin e instancia um novo 
+     * arquivo caso ainda não exista.
+     * @throws IOException
+     * @throws SQLException 
+     */
     public UsuarioDaoArquivo() throws IOException,SQLException {
         arquivo = new File("usuarios.bin");
         if (!arquivo.exists()) {
@@ -38,6 +40,13 @@ public class UsuarioDaoArquivo {
         }
     }
 
+    /**
+     * Realiza a listagem de usuários persistidos no arquivo
+     * @return uma lista com os usuários salvos no arquivo
+     * @throws ClassNotFoundException
+     * @throws IOException 
+     */
+    
     public List<Usuario> listar() throws ClassNotFoundException, IOException {
 
         List<Usuario> usuarios;
@@ -53,6 +62,17 @@ public class UsuarioDaoArquivo {
         return usuarios;
     }
 
+    /**
+     * Atualiza um usuário existente no arquivo
+     * @param u o usuário que será atualizado
+     * @return verdadeiro ou falso, dependendo da atualização 
+     * @throws FileNotFoundException
+     * @throws IOException
+     * @throws ClassNotFoundException
+     * @throws EmailException
+     * @throws CadastroException
+     * @throws SQLException 
+     */
     public boolean atualizar(Usuario u) throws FileNotFoundException, IOException,
             ClassNotFoundException, EmailException, CadastroException,SQLException {
 
@@ -74,7 +94,19 @@ public class UsuarioDaoArquivo {
         writer.close();
         return false;
     }
-
+    
+    /**
+     * 
+     * @param email é o email digitado pelo usuário
+     * @param senha é a senha digitada pelo usuário
+     * @return null caso o usuário com este email e senha não exista ou retorna o
+     * usuário, caso ele exista.
+     * @throws IOException
+     * @throws FileNotFoundException
+     * @throws ClassNotFoundException
+     * @throws EmailException
+     * @throws SQLException 
+     */
     public Usuario autenticar(String email, String senha) throws IOException, 
             FileNotFoundException, ClassNotFoundException, EmailException,SQLException {
         List<Usuario> usuarios = listar();
@@ -93,6 +125,18 @@ public class UsuarioDaoArquivo {
         return null;
     }
 
+    /**
+     * 
+     * @param u é o usuário que será salvo no arquivo
+     * @return verdadeiro ou falso, caso seja salvo no arquivo ou não.
+     * @throws EmailException
+     * @throws CadastroException
+     * @throws FileNotFoundException
+     * @throws IOException
+     * @throws ClassNotFoundException
+     * @throws SQLException 
+     */
+    
     public boolean salvar(Usuario u) throws EmailException, CadastroException,
             FileNotFoundException, IOException, ClassNotFoundException,SQLException {
         List<Usuario> usuarios = listar();
@@ -110,6 +154,14 @@ public class UsuarioDaoArquivo {
         return true;
     }
 
+    /**
+     * 
+     * @param u é o usuário que será removido
+     * @return verdadeiro ou falso, caso o usuário seja removido ou não
+     * @throws IOException
+     * @throws ClassNotFoundException 
+     */
+    
     public boolean remover(Usuario u) throws IOException, ClassNotFoundException {
         List<Usuario> usuarios = listar();
         ObjectOutputStream writer = new ObjectOutputStream(new FileOutputStream(arquivo));
@@ -123,7 +175,14 @@ public class UsuarioDaoArquivo {
             return false;
         }
     }
-
+    
+    /**
+     * 
+     * @param senha é a senha digitada pelo usuário no campo 'senha'
+     * @param confirma é a confirmação de senha digitada no campo 'confirma senha'
+     * @return verdadeiro ou falso, caso as duas sejam iguais ou não.
+     * @throws CadastroException 
+     */
     public boolean confirmaSenha(String senha, String confirma) throws CadastroException {
 
         if (confirma.equals("")) {
@@ -132,6 +191,13 @@ public class UsuarioDaoArquivo {
         return senha.equals(confirma);
     }
 
+    /**
+     * 
+     * @param email´é o email do usuário que está sendo buscado
+     * @return retorna o usuário, caso seja encontrado, ou null, caso não exista
+     * @throws ClassNotFoundException
+     * @throws IOException 
+     */
     public Usuario buscar(String email) throws ClassNotFoundException, IOException {
         List<Usuario> usuarios = listar();
         for (Usuario user : usuarios) {
