@@ -1,8 +1,4 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
+
 package com.mycompany.etapa2.visao;
 
 import com.mycompany.etapa2.controle.UsuarioDaoBanco;
@@ -31,18 +27,21 @@ import org.jfree.chart.plot.PlotOrientation;
 import org.jfree.data.category.DefaultCategoryDataset;
 
 /**
- *
+ * Tela do gerenciador de movimentações, onde o usuário pode alterar uma movimentação
+ * existente, visualizar as movimentações presentes dentro de um intervalo de tempo 
+ * e exibir um gráfico demonstrando a diferença dos valores para cada categoria.
  * @author Flavio
  */
 public class Gerenciador extends javax.swing.JFrame {
 
-    /**
-     * Creates new form Gerenciador
-     */
+
     private Usuario atual;
     private UsuarioDaoBanco dao;
     private DefaultTableModel table;
 
+    /**
+     * Construtor de Gerenciador
+     */
     public Gerenciador() {
         try {
             dao = new UsuarioDaoBanco();
@@ -59,10 +58,18 @@ public class Gerenciador extends javax.swing.JFrame {
         table = (DefaultTableModel) tabela.getModel();
     }
 
+    /**
+     * Determina qual é o usuário logado no sistema.
+     * @param u O usuário que está logado.
+     */
     public void setUsuario(Usuario u) {
         atual = u;
     }
-
+    
+    /**
+     * Determina quem é o usuário atual
+     * @return retorna o usuário atual do sistema.
+     */
     private Usuario getUsuario() {
         return this.atual;
     }
@@ -244,7 +251,10 @@ public class Gerenciador extends javax.swing.JFrame {
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
-
+    /**
+     * Atualiza o usuário com suas movimentações e abre uma nova tela Inicial.
+     * @param evt Clique do mouse no 'X' 
+     */
     private void jLabel2MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jLabel2MouseClicked
 
         try {
@@ -265,7 +275,10 @@ public class Gerenciador extends javax.swing.JFrame {
         inicial.setUsuario(this.getUsuario());
         dispose();
     }//GEN-LAST:event_jLabel2MouseClicked
-
+    /**
+     * Calcula quais movimentações o usuário realizou naquele intervalo de datas.
+     * @param evt Clique do mouse no botão Calcular.
+     */
     private void btCalcularActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btCalcularActionPerformed
         List<Movimentacao> movs = atual.getMovimentacoes();
         if (movs.isEmpty()) {
@@ -294,7 +307,10 @@ public class Gerenciador extends javax.swing.JFrame {
             }
         }
     }//GEN-LAST:event_btCalcularActionPerformed
-
+    /**
+     * Permite que o usuário altere a movimentação selecionada.
+     * @param evt Clique do mouse sobre uma movimentação na tabela.
+     */
     private void tabelaMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_tabelaMouseClicked
         CadastroMov cad = new CadastroMov();
         cad.setVisible(true);
@@ -311,7 +327,11 @@ public class Gerenciador extends javax.swing.JFrame {
         cad.setAnterior(2);
         dispose();
     }//GEN-LAST:event_tabelaMouseClicked
-
+    /**
+     * Demonstra um gráfico com a diferença de valores de cada categoria das 
+     * movimentações do usuário.
+     * @param evt Clique do mouse no botão Gráfico.
+     */
     private void btGraficoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btGraficoActionPerformed
 
         String[] opcoes = {"Entrada", "Saída"};

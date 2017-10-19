@@ -20,18 +20,19 @@ import javax.swing.ImageIcon;
 import javax.swing.JOptionPane;
 
 /**
- *
+ * Tela de Cadastro de usuário.
  * @author Flavio
  */
 public class CadastroUsuario extends javax.swing.JFrame {
 
-    /**
-     * Creates new form CadastroUsuario
-     */
+
     private UsuarioDaoBanco dao;
     private int anterior;
     private Usuario atual;
-
+    
+    /**
+     * Construtor de CadastroUsuario
+     */
     public CadastroUsuario() {
         atual = new Usuario();
         this.setIconImage(new ImageIcon("icone.jpg").getImage());
@@ -276,7 +277,10 @@ public class CadastroUsuario extends javax.swing.JFrame {
     private void cNomeActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cNomeActionPerformed
         // TODO add your handling code here:
     }//GEN-LAST:event_cNomeActionPerformed
-
+    /**
+     * Cria um objeto usuário e tenta salvá-lo.
+     * @param evt Clique do mouse no botão salvar.
+     */
     private void btSalvarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btSalvarActionPerformed
         String sex = null;
         if (masculino.isSelected()) {
@@ -334,11 +338,19 @@ public class CadastroUsuario extends javax.swing.JFrame {
             JOptionPane.showMessageDialog(null, ex.getMessage());
         }
     }//GEN-LAST:event_btSalvarActionPerformed
-
+    /**
+     * Remove todos os textos e valores dos campos da tela.
+     * @param evt Clique do mouse no botão Limpar.
+     */
     private void btLimparActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btLimparActionPerformed
         limpar();
     }//GEN-LAST:event_btLimparActionPerformed
-
+    /**
+     * Verifica qual foi a tela que chamou esta tela de cadastro de usuário,
+     * caso seja a Inicial, fecha esta e instancia uma nova Inicial. Caso contrário,
+     * apenas fecha esta.
+     * @param evt 
+     */
     private void jLabel2MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jLabel2MouseClicked
         if (anterior == 2) {
             Inicial inicial = new Inicial();
@@ -347,22 +359,34 @@ public class CadastroUsuario extends javax.swing.JFrame {
         }
         dispose();
     }//GEN-LAST:event_jLabel2MouseClicked
-
+    /**
+     * Determina qual tela chamou esta tela de cadastro de usuário antes.
+     * @param i Número inteiro representando a tela anterior.
+     */
     public void setAnterior(int i) {
         anterior = i;
 
     }
-
+    /**
+     * Determina quem é o usuário atual do sistema.
+     * @param u Usuário atual
+     */
     public void setUsuario(Usuario u) {
         atual = u;
         preencher();
 
     }
-
+    /**
+     * Determina o título da tela.
+     * @param titulo String com o titulo passado pela tela Inicial.
+     */
     public void titulo(String titulo) {
         this.titulo.setText(titulo);
     }
-
+    
+    /**
+     * Remove todos os valores dos campos da tela.
+     */
     public void limpar() {
         cEmail.setText("");
         cSenha.setText("");

@@ -1,8 +1,4 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
+
 package com.mycompany.etapa2.visao;
 
 import com.mycompany.etapa2.controle.UsuarioDaoBanco;
@@ -21,19 +17,20 @@ import javax.swing.ImageIcon;
 import javax.swing.JOptionPane;
 
 /**
- *
+ * Tela de cadastro de movimentações financeiras.
  * @author Flavio
  */
 public class CadastroMov extends javax.swing.JFrame {
 
-    /**
-     * Creates new form CadastroMov
-     */
+
     private Usuario atual;
     private UsuarioDaoBanco dao;
     private int anterior;
     private Movimentacao antiga;
-
+    
+    /**
+     * Construtor de CadastroMov.
+     */
     public CadastroMov() {
         atual = new Usuario();
         antiga = new Movimentacao();
@@ -263,7 +260,10 @@ public class CadastroMov extends javax.swing.JFrame {
     private void jPanel2MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jPanel2MouseClicked
         // TODO add your handling code here:
     }//GEN-LAST:event_jPanel2MouseClicked
-
+    /**
+     * Salva uma nova movimentação para aquele usuário.
+     * @param evt Clique do mouse no botão Salvar.
+     */
     private void btSalvarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btSalvarActionPerformed
 
         try {
@@ -303,7 +303,11 @@ public class CadastroMov extends javax.swing.JFrame {
             Logger.getLogger(com.ifpb.visao.CadastroMov.class.getName()).log(Level.SEVERE, null, ex);
         }
     }//GEN-LAST:event_btSalvarActionPerformed
-
+    
+    /**
+     * Verifica quem foi a tela anterior a esta e instancia uma nova.
+     * @param evt Clique do mouse sobre o 'X'.
+     */
     private void jLabel2MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jLabel2MouseClicked
         if (anterior != 2) {
             Inicial inicial = new Inicial();
@@ -316,11 +320,17 @@ public class CadastroMov extends javax.swing.JFrame {
         }
         dispose();
     }//GEN-LAST:event_jLabel2MouseClicked
-
+    /**
+     * Chamada do método limpar.
+     * @param evt Clique do mouse sobre o botão limpar.
+     */
     private void btLimparActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btLimparActionPerformed
         limpar();
     }//GEN-LAST:event_btLimparActionPerformed
-
+    /**
+     * Deleta aquela movimentação.
+     * @param evt Clique do mouse sobre o botão DELETAR.
+     */
     private void btDeletarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btDeletarActionPerformed
 
         if (atual.deletarMov(antiga)) {
@@ -329,15 +339,25 @@ public class CadastroMov extends javax.swing.JFrame {
         }
 
     }//GEN-LAST:event_btDeletarActionPerformed
-
+    /**
+     * Determina qual é o usuário que está logado no sistema.
+     * @param u Usuário atual
+     */
     public void setUsuario(Usuario u) {
         atual = u;
     }
-
+    /**
+     * Retorna o usuário atual
+     * @return retorna o usuário atual 
+     */
     public Usuario getUsuario() {
         return this.atual;
     }
 
+        
+     /**
+      * Remove todos os valores dos campos da tela.
+      */
     public void limpar() {
 
         descricao.setText("");
@@ -346,12 +366,22 @@ public class CadastroMov extends javax.swing.JFrame {
         valor.setText("");
         calendario.setDate(null);
     }
-
+    
+    /**
+     * Determina qual foi a tela anterior a esta.
+     * @param a Número inteiro representando a tela anterior.
+     */
     public void setAnterior(int a) {
         anterior = a;
         btDeletar.setVisible(true);
     }
-
+    
+    /**
+     * Preenche os campos da tela com os dados da movimentação que está sendo
+     * alterada.
+     * @param m Movimentação atual
+     * @param title Título para a tela.
+     */
     public void setMov(Movimentacao m, String title) {
 
         descricao.setText(m.getDescricao());
