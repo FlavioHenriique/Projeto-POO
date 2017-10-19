@@ -1,8 +1,4 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
+
 package com.mycompany.etapa2.visao;
 
 import com.mycompany.etapa2.controle.UsuarioDaoBanco;
@@ -16,16 +12,17 @@ import javax.swing.ImageIcon;
 import javax.swing.JOptionPane;
 
 /**
- *
+ * Tela de Login
  * @author Flavio
  */
 public class Login extends javax.swing.JFrame {
 
-    /**
-     * Creates new form Login
-     */
+
     private UsuarioDaoBanco dao;
 
+    /**
+     * Construtor da tela de Login
+     */
     public Login() {
         this.setLocation(500, 110);
         this.setIconImage(new ImageIcon("icone.jpg").getImage());
@@ -204,14 +201,22 @@ public class Login extends javax.swing.JFrame {
     private void senhaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_senhaActionPerformed
         // TODO add your handling code here:
     }//GEN-LAST:event_senhaActionPerformed
-
+    /**
+     * Mostra uma janela de diálogo, perguntando ao usuário se deseja ou não fechar 
+     * o sistema
+     * @param evt clique do mouse no 'X'
+     */
     private void jLabel5MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jLabel5MouseClicked
         if (JOptionPane.showConfirmDialog(null, "Deseja fechar o sistema?",
                 "Fechar o sistema", JOptionPane.YES_NO_OPTION) == 0) {
             dispose();
         }
     }//GEN-LAST:event_jLabel5MouseClicked
-
+    /**
+     * Verifica se existe um usuário com aquele email e senha, caso exista, instancia 
+     * uma tela Inicial.
+     * @param evt clique do mouse no botão Login
+     */
     private void btLoginActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btLoginActionPerformed
         try {
             Usuario usuario = dao.autenticar(email.getText(), senha.getText());
@@ -237,7 +242,10 @@ public class Login extends javax.swing.JFrame {
             Logger.getLogger(Login.class.getName()).log(Level.SEVERE, null, ex);
         }
     }//GEN-LAST:event_btLoginActionPerformed
-
+    /**
+     * Inicializa uma tela de cadastro de usuário
+     * @param evt Clique do mouse no botão Cadastrar 
+     */
     private void btCadastrarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btCadastrarActionPerformed
 
         CadastroUsuario cad = new CadastroUsuario();
@@ -293,7 +301,11 @@ public class Login extends javax.swing.JFrame {
     private javax.swing.JPanel jPanel2;
     private javax.swing.JPasswordField senha;
     // End of variables declaration//GEN-END:variables
-  private void limpar() {
+  
+     /**
+      * Método criado para remover textos do campo de email e senha
+      */
+    private void limpar() {
         email.setText("");
         senha.setText("");
     }

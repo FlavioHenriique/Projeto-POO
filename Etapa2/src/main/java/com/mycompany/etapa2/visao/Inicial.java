@@ -5,7 +5,6 @@
  */
 package com.mycompany.etapa2.visao;
 
-
 import com.mycompany.etapa2.controle.UsuarioDaoBanco;
 import com.mycompany.etapa2.excecoes.CadastroException;
 import com.mycompany.etapa2.excecoes.EmailException;
@@ -18,6 +17,8 @@ import javax.swing.ImageIcon;
 import javax.swing.JOptionPane;
 
 /**
+ * Tela Inicial, onde o usuário pode escolher o que quer fazer, seja cadastrar
+ * uma movimentação, atualizar seu perfil ou gerenciar suas movimentações.
  *
  * @author Flavio
  */
@@ -30,6 +31,9 @@ public class Inicial extends javax.swing.JFrame {
     private UsuarioDaoBanco dao;
     private int anterior;
 
+    /**
+     * Construtor da tela Inicial
+     */
     public Inicial() {
         try {
             dao = new UsuarioDaoBanco();
@@ -272,9 +276,14 @@ public class Inicial extends javax.swing.JFrame {
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
-
+    /**
+     * Mostra uma janela de diálogo perguntando ao usuário se deseja sair da
+     * tela inicial e voltar para a de Login.
+     *
+     * @param evt Clique do mouse no 'X'
+     */
     private void jLabel1MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jLabel1MouseClicked
-        
+
         if (JOptionPane.showConfirmDialog(null, "Deseja sair?", "Logoff",
                 JOptionPane.YES_NO_OPTION) == 0) {
             try {
@@ -296,7 +305,11 @@ public class Inicial extends javax.swing.JFrame {
             }
         }
     }//GEN-LAST:event_jLabel1MouseClicked
-
+    /**
+     * Inicializa uma tela para que o usuário possa atualizar seu perfil.
+     *
+     * @param evt Clique do mouse no ícone de Gerenciar perfil.
+     */
     private void jLabel8MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jLabel8MouseClicked
 
         CadastroUsuario cad = new CadastroUsuario();
@@ -306,14 +319,22 @@ public class Inicial extends javax.swing.JFrame {
         cad.setUsuario(atual);
         dispose();
     }//GEN-LAST:event_jLabel8MouseClicked
-
+    /**
+     * Abre uma tela para que o usuário gerencie suas movimentações financeiras.
+     *
+     * @param evt Clique do mouse no ícone de Gerenciar Movimentações
+     */
     private void jLabel7MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jLabel7MouseClicked
         Gerenciador g = new Gerenciador();
         g.setVisible(true);
         g.setUsuario(atual);
         dispose();
     }//GEN-LAST:event_jLabel7MouseClicked
-
+    /**
+     * Abre uma tela para que o usuário cadastre movimentações.
+     *
+     * @param evt Clique do mouse no ícone de Cadastrar movimentação.
+     */
     private void jLabel6MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jLabel6MouseClicked
         CadastroMov mov = new CadastroMov();
         mov.setVisible(true);
@@ -321,11 +342,17 @@ public class Inicial extends javax.swing.JFrame {
         dispose();
     }//GEN-LAST:event_jLabel6MouseClicked
 
-    
-       public void setUsuario(Usuario u) {
+    /**
+     * Determina quem é o usuário que está logado no sistema e exibe seu nome na
+     * tela inicial.
+     *
+     * @param u Usuário que será usado como usuário atual da tela.
+     */
+    public void setUsuario(Usuario u) {
         atual = u;
         nomeUser.setText("Bem vindo, " + atual.getNome() + " !");
     }
+
     /**
      * @param args the command line arguments
      */
