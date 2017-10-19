@@ -5,7 +5,7 @@
  */
 package com.mycompany.etapa2.visao;
 
-import com.mycompany.etapa2.controle.UsuarioDaoArquivo;
+import com.mycompany.etapa2.controle.UsuarioDaoBanco;
 import com.mycompany.etapa2.excecoes.CadastroException;
 import com.mycompany.etapa2.excecoes.EmailException;
 import com.mycompany.etapa2.modelo.Usuario;
@@ -28,7 +28,7 @@ public class CadastroUsuario extends javax.swing.JFrame {
     /**
      * Creates new form CadastroUsuario
      */
-    private UsuarioDaoArquivo dao;
+    private UsuarioDaoBanco dao;
     private int anterior;
     private Usuario atual;
 
@@ -37,7 +37,7 @@ public class CadastroUsuario extends javax.swing.JFrame {
         this.setIconImage(new ImageIcon("icone.jpg").getImage());
         this.setLocation(500, 110);
         try {
-            dao = new UsuarioDaoArquivo();
+            dao = new UsuarioDaoBanco();
         } catch (IOException ex) {
             JOptionPane.showMessageDialog(null, "Erro");
         } catch (SQLException ex) {

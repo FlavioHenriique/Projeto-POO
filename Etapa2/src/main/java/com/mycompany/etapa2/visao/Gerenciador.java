@@ -5,7 +5,7 @@
  */
 package com.mycompany.etapa2.visao;
 
-import com.mycompany.etapa2.controle.UsuarioDaoArquivo;
+import com.mycompany.etapa2.controle.UsuarioDaoBanco;
 import com.mycompany.etapa2.excecoes.CadastroException;
 import com.mycompany.etapa2.excecoes.EmailException;
 import com.mycompany.etapa2.modelo.Movimentacao;
@@ -40,12 +40,12 @@ public class Gerenciador extends javax.swing.JFrame {
      * Creates new form Gerenciador
      */
     private Usuario atual;
-    private UsuarioDaoArquivo dao;
+    private UsuarioDaoBanco dao;
     private DefaultTableModel table;
 
     public Gerenciador() {
         try {
-            dao = new UsuarioDaoArquivo();
+            dao = new UsuarioDaoBanco();
         } catch (IOException ex) {
             JOptionPane.showMessageDialog(null, "Erro ao conectar-se");
 
@@ -314,6 +314,10 @@ public class Gerenciador extends javax.swing.JFrame {
 
     private void btGraficoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btGraficoActionPerformed
 
+        String[] opcoes = {"Entrada", "Saída"};
+        String opcao = (String) JOptionPane.showInputDialog(null, "Selecione o "
+                + "tipo de gráfico que você deseja:", "Tipo de gráfico", HEIGHT, null,
+                opcoes, DISPOSE_ON_CLOSE);
         DefaultCategoryDataset dt = new DefaultCategoryDataset();
 
         float pessoal = 0;
@@ -324,30 +328,32 @@ public class Gerenciador extends javax.swing.JFrame {
         float saude = 0;
 
         for (int k = 0; k < table.getRowCount(); k++) {
-            switch ((String) table.getValueAt(k, 2)) {
-                case "Pessoal": {
-                    pessoal = pessoal + (float) table.getValueAt(k, 3);
-                    break;
-                }
-                case "Outros": {
-                    outros = outros + (float) table.getValueAt(k, 3);
-                    break;
-                }
-                case "Alimentação": {
-                    alimentacao = alimentacao + (float) table.getValueAt(k, 3);
-                    break;
-                }
-                case "Cartão de crédito": {
-                    cartao = cartao + (float) table.getValueAt(k, 3);
-                    break;
-                }
-                case "Despesa doméstica": {
-                    despesa = despesa + (float) table.getValueAt(k, 3);
-                    break;
-                }
-                case "Saúde": {
-                    saude = saude + (float) table.getValueAt(k, 3);
-                    break;
+            if (table.getValueAt(k, 1).equals(opcao)) {
+                switch ((String) table.getValueAt(k, 2)) {
+                    case "Pessoal": {
+                        pessoal = pessoal + (float) table.getValueAt(k, 3);
+                        break;
+                    }
+                    case "Outros": {
+                        outros = outros + (float) table.getValueAt(k, 3);
+                        break;
+                    }
+                    case "Alimentação": {
+                        alimentacao = alimentacao + (float) table.getValueAt(k, 3);
+                        break;
+                    }
+                    case "Cartão de crédito": {
+                        cartao = cartao + (float) table.getValueAt(k, 3);
+                        break;
+                    }
+                    case "Despesa doméstica": {
+                        despesa = despesa + (float) table.getValueAt(k, 3);
+                        break;
+                    }
+                    case "Saúde": {
+                        saude = saude + (float) table.getValueAt(k, 3);
+                        break;
+                    }
                 }
             }
         }

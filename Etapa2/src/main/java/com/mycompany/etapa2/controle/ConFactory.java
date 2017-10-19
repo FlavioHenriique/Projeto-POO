@@ -1,20 +1,13 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
+
 package com.mycompany.etapa2.controle;
 
-/**
- *
- * @author Flavio
- */
+
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.SQLException;
 
 /**
- *
+ *Essa classe realiza a conexão da aplicação com o banco de dados PostgreSQL
  * @author Flavio
  */
 public class ConFactory {
@@ -23,6 +16,10 @@ public class ConFactory {
     private final String user;
     private final String password;
 
+    
+    /**
+     * Construtor da conexão, conectando ao banco de dados selecionado
+     */
     public ConFactory() {
 
         host = "jdbc:postgresql://127.0.0.1:5432/projetoPOO";
@@ -30,6 +27,12 @@ public class ConFactory {
         password = "flavio22";
     }
 
+    /**
+     * 
+     * @return a conexão com o banco de dados
+     * @throws ClassNotFoundException,SQLException
+     */
+    
     public Connection getConnection() throws ClassNotFoundException, SQLException {
 
         Class.forName("org.postgresql.Driver");

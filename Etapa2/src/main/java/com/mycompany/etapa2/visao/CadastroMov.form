@@ -250,10 +250,9 @@
               <Font name="Arial" size="12" style="0"/>
             </Property>
             <Property name="model" type="javax.swing.ComboBoxModel" editor="org.netbeans.modules.form.editors2.ComboBoxModelEditor">
-              <StringArray count="3">
+              <StringArray count="2">
                 <StringItem index="0" value="Entrada"/>
                 <StringItem index="1" value="Sa&#xed;da"/>
-                <StringItem index="2" value=" "/>
               </StringArray>
             </Property>
           </Properties>
@@ -267,14 +266,13 @@
               <Font name="Arial" size="12" style="0"/>
             </Property>
             <Property name="model" type="javax.swing.ComboBoxModel" editor="org.netbeans.modules.form.editors2.ComboBoxModelEditor">
-              <StringArray count="7">
+              <StringArray count="6">
                 <StringItem index="0" value="Sa&#xfa;de"/>
                 <StringItem index="1" value="Pessoal"/>
                 <StringItem index="2" value="Despesa dom&#xe9;stica"/>
                 <StringItem index="3" value="Alimenta&#xe7;&#xe3;o"/>
                 <StringItem index="4" value="Cart&#xe3;o de cr&#xe9;dito"/>
                 <StringItem index="5" value="Outros"/>
-                <StringItem index="6" value=" "/>
               </StringArray>
             </Property>
           </Properties>

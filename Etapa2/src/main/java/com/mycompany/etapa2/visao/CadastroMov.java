@@ -5,7 +5,7 @@
  */
 package com.mycompany.etapa2.visao;
 
-import com.mycompany.etapa2.controle.UsuarioDaoArquivo;
+import com.mycompany.etapa2.controle.UsuarioDaoBanco;
 import com.mycompany.etapa2.excecoes.CadastroException;
 import com.mycompany.etapa2.excecoes.EmailException;
 import com.mycompany.etapa2.modelo.Movimentacao;
@@ -30,7 +30,7 @@ public class CadastroMov extends javax.swing.JFrame {
      * Creates new form CadastroMov
      */
     private Usuario atual;
-    private UsuarioDaoArquivo dao;
+    private UsuarioDaoBanco dao;
     private int anterior;
     private Movimentacao antiga;
 
@@ -38,7 +38,7 @@ public class CadastroMov extends javax.swing.JFrame {
         atual = new Usuario();
         antiga = new Movimentacao();
         try {
-            dao = new UsuarioDaoArquivo();
+            dao = new UsuarioDaoBanco();
         } catch (IOException ex) {
             JOptionPane.showMessageDialog(null, "erro ao conectar-se");
         } catch (SQLException ex) {
@@ -142,10 +142,10 @@ public class CadastroMov extends javax.swing.JFrame {
         jLabel7.setText("Categoria");
 
         tipo.setFont(new java.awt.Font("Arial", 0, 12)); // NOI18N
-        tipo.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Entrada", "Saída", " " }));
+        tipo.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Entrada", "Saída" }));
 
         categoria.setFont(new java.awt.Font("Arial", 0, 12)); // NOI18N
-        categoria.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Saúde", "Pessoal", "Despesa doméstica", "Alimentação", "Cartão de crédito", "Outros", " " }));
+        categoria.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Saúde", "Pessoal", "Despesa doméstica", "Alimentação", "Cartão de crédito", "Outros" }));
 
         btSalvar.setBackground(new java.awt.Color(51, 102, 0));
         btSalvar.setFont(new java.awt.Font("Arial", 1, 14)); // NOI18N

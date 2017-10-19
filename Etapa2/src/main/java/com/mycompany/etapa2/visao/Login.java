@@ -5,7 +5,7 @@
  */
 package com.mycompany.etapa2.visao;
 
-import com.mycompany.etapa2.controle.UsuarioDaoArquivo;
+import com.mycompany.etapa2.controle.UsuarioDaoBanco;
 import com.mycompany.etapa2.excecoes.EmailException;
 import com.mycompany.etapa2.modelo.Usuario;
 import java.io.IOException;
@@ -24,13 +24,13 @@ public class Login extends javax.swing.JFrame {
     /**
      * Creates new form Login
      */
-    private UsuarioDaoArquivo dao;
+    private UsuarioDaoBanco dao;
 
     public Login() {
         this.setLocation(500, 110);
         this.setIconImage(new ImageIcon("icone.jpg").getImage());
         try {
-            dao = new UsuarioDaoArquivo();
+            dao = new UsuarioDaoBanco();
         } catch (IOException ex) {
             Logger.getLogger(Login.class.getName()).log(Level.SEVERE, null, ex);
         } catch (SQLException ex) {

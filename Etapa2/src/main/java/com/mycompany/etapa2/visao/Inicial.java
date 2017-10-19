@@ -6,7 +6,7 @@
 package com.mycompany.etapa2.visao;
 
 
-import com.mycompany.etapa2.controle.UsuarioDaoArquivo;
+import com.mycompany.etapa2.controle.UsuarioDaoBanco;
 import com.mycompany.etapa2.excecoes.CadastroException;
 import com.mycompany.etapa2.excecoes.EmailException;
 import com.mycompany.etapa2.modelo.Usuario;
@@ -27,12 +27,12 @@ public class Inicial extends javax.swing.JFrame {
      * Creates new form Inicial
      */
     private Usuario atual;
-    private UsuarioDaoArquivo dao;
+    private UsuarioDaoBanco dao;
     private int anterior;
 
     public Inicial() {
         try {
-            dao = new UsuarioDaoArquivo();
+            dao = new UsuarioDaoBanco();
         } catch (IOException ex) {
             Logger.getLogger(Inicial.class.getName()).log(Level.SEVERE, null, ex);
         } catch (SQLException ex) {
