@@ -7,7 +7,7 @@ import java.sql.DriverManager;
 import java.sql.SQLException;
 
 /**
- *Essa classe realiza a conexão da aplicação com o banco de dados PostgreSQL
+ * Essa classe realiza a conexão da aplicação com o banco de dados PostgreSQL
  * @author Flavio
  */
 public class ConFactory {

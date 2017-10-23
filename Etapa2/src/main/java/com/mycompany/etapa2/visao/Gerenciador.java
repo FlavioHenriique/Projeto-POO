@@ -322,7 +322,8 @@ public class Gerenciador extends javax.swing.JFrame {
         String data = (String) tabela.getValueAt(tabela.getSelectedRow(), 4);
         DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd/MM/yyyy");
         LocalDate date = LocalDate.parse(data, formatter);
-        Movimentacao m = new Movimentacao(descricao, categoria, valor, tipo, date, atual.getEmail());
+        Movimentacao m = new Movimentacao(descricao, categoria, valor, tipo, 
+                date, atual.getEmail());
         cad.setMov(m, "Alterar movimentação");
         cad.setAnterior(2);
         dispose();
